@@ -4,6 +4,8 @@ This wrapper packages the public Paperclip wallet image for x86_64 and aarch64.
 New wallets point to https://ark.paperclippool.xyz. Keys stay on the user's host.
 The Ark service is not open for deposits yet.
 
+Package revision 0.7.1:1 preserves exact decimal RPC amounts in the bundled adapter.
+
 The image pin is in `startos/manifest/index.ts`. The single `main` volume mounts
 at `/data` and holds wallet data, authentication, and the optional pruned index.
 The entrypoint initializes directory ownership then drops to uid/gid 1000.
