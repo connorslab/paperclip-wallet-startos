@@ -1,0 +1,2 @@
+export const short = { en_US: 'Beta XBT wallet for on-chain, Ark, and Lightning' }
+export const long = { en_US: 'Paperclip Wallet runs on your server and keeps keys local. New wallets point to https://ark.paperclippool.xyz. Includes automatic VTXO refresh and an optional private pruned-node adapter. Configure a compatible XBT blockchain backend. SHA-256 BTC nodes are not compatible. Beta: wait for Paperclip service activation before funding. Back up the complete wallet.' }
