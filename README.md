@@ -4,7 +4,9 @@ This wrapper packages the public Paperclip wallet image for x86_64 and aarch64.
 New wallets point to https://ark.paperclippool.xyz. Keys stay on the user's host.
 The Paperclip Ark service is open in beta. Check its live status before funding.
 
-Package revision 0.8.0:0 adds reusable BOLT12 receiving through a compatible ASP,
+Package revision 0.8.1:0 fixes Lightning input selection for fragmented Ark balances
+and adds builder-validated cost estimates. No ASP protocol or database change is required.
+It retains reusable BOLT12 receiving through a compatible ASP,
 local QR codes for on-chain/Ark/Lightning receiving, and BIP322-simple on-chain
 message signing. Keep the wallet service online to answer new offer requests.
 Existing BOLT11 payments and Ark-send cost estimates remain supported.

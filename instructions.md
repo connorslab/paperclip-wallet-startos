@@ -25,7 +25,12 @@ or one SQLite file from a running wallet. Keep the complete wallet and recovery
 data. Do not run two instances from the same backup. Restore acceptance testing
 on a StartOS device remains pending for this beta.
 
-## Wallet 0.8.0
+## Wallet 0.8.1
+
+Lightning sends now choose inputs that can form valid HTLCs and change after
+recovery reserves. Enter an amount to review the estimated total before paying.
+If no usable combination exists, refresh eligible inputs or add Ark funds.
+The wallet does not automatically retry payments or consolidate funds.
 
 Lightning now has a reusable BOLT12 offer. Keep the wallet service online to
 answer new invoice requests; closing the browser is fine. Disabling an offer
