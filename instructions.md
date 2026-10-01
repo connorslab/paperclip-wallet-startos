@@ -25,9 +25,16 @@ or one SQLite file from a running wallet. Keep the complete wallet and recovery
 data. Do not run two instances from the same backup. Restore acceptance testing
 on a StartOS device remains pending for this beta.
 
-## Wallet 0.7.5
+## Wallet 0.7.6
 
 Use VTXOs & recovery to inspect spendable and locked funds, expiry block heights,
 and refresh controls. Keep the service online for automatic maintenance.
 The optional tab session survives page reloads; select Lock to clear it.
 Emergency exit tools remain separate from routine refresh.
+
+## Not independently audited
+
+Paperclip Wallet and its Ark integration have not received an independent
+security audit. Experimental software, no warranty. Tests do not guarantee
+security or recovery. Bugs can cause loss of funds. Use only amounts you can
+afford to lose.

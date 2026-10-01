@@ -4,9 +4,9 @@ This wrapper packages the public Paperclip wallet image for x86_64 and aarch64.
 New wallets point to https://ark.paperclippool.xyz. Keys stay on the user's host.
 The Paperclip Ark service is open in beta. Check its live status before funding.
 
-Package revision 0.7.5:0 adds a clearer Lightning flow, activity and VTXO dashboards,
-expiry warnings, optional tab session memory, live balance updates, and corrected
-text encoding. Existing wallet data and authentication tokens are preserved.
+Package revision 0.7.6:0 adds persistent unaudited-code warnings and a setup risk
+acknowledgment. It includes the 0.7.5 Lightning flow, activity and VTXO dashboards,
+expiry warnings, tab session memory, live balance updates, and encoding fixes. Existing wallet data and authentication tokens are preserved.
 
 The image pin is in `startos/manifest/index.ts`. The single `main` volume mounts
 at `/data` and holds wallet data, authentication, and the optional pruned index.
@@ -27,3 +27,10 @@ StartOS installation or backup/restore acceptance.
 
 Source: https://github.com/connorslab/paperclip-wallet-app. Based on Bark by
 Second and its contributors. MIT license.
+
+## Not independently audited
+
+Paperclip Wallet and its Ark integration have not received an independent
+security audit. Experimental software, no warranty. Tests do not guarantee
+security or recovery. Bugs can cause loss of funds. Use only amounts you can
+afford to lose.
