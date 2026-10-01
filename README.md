@@ -4,8 +4,8 @@ This wrapper packages the public Paperclip wallet image for x86_64 and aarch64.
 New wallets point to https://ark.paperclippool.xyz. Keys stay on the user's host.
 The Paperclip Ark service is open in beta. Check its live status before funding.
 
-Package revision 0.7.6:0 adds persistent unaudited-code warnings and a setup risk
-acknowledgment. It includes the 0.7.5 Lightning flow, activity and VTXO dashboards,
+Package revision 0.7.7:0 adds Ark-send cost estimates and an approved debit cap.
+It retains the unaudited-code warnings and setup risk acknowledgment. It includes the 0.7.5 Lightning flow, activity and VTXO dashboards,
 expiry warnings, tab session memory, live balance updates, and encoding fixes. Existing wallet data and authentication tokens are preserved.
 
 The image pin is in `startos/manifest/index.ts`. The single `main` volume mounts
@@ -34,3 +34,7 @@ Paperclip Wallet and its Ark integration have not received an independent
 security audit. Experimental software, no warranty. Tests do not guarantee
 security or recovery. Bugs can cause loss of funds. Use only amounts you can
 afford to lose.
+
+Ark transfers show the recovery reserve and total balance reduction before
+confirmation. A higher send-time cost requires a new review. Quotes do not
+reserve funds. Recovery reserves are not separately refundable deposits.
