@@ -2,9 +2,11 @@
 
 This wrapper packages the public Paperclip wallet image for x86_64 and aarch64.
 New wallets point to https://ark.paperclippool.xyz. Keys stay on the user's host.
-The Ark service is not open for deposits yet.
+The Paperclip Ark service is open in beta. Check its live status before funding.
 
-Package revision 0.7.4:0 handles temporary chain RPC overload, preserves exact fee amounts, and returns fee-estimation errors without crashing.
+Package revision 0.7.5:0 adds a clearer Lightning flow, activity and VTXO dashboards,
+expiry warnings, optional tab session memory, live balance updates, and corrected
+text encoding. Existing wallet data and authentication tokens are preserved.
 
 The image pin is in `startos/manifest/index.ts`. The single `main` volume mounts
 at `/data` and holds wallet data, authentication, and the optional pruned index.
@@ -20,8 +22,8 @@ for refresh. See `instructions.md` for setup and complete backup requirements.
 Build with the official StartOS 0.4 workspace and start-cli 2.1.0: `npm ci`,
 `npm run check`, then `make universal`. A successful package build does not prove
 installation or backup restoration on a StartOS device. Those acceptance tests
-remain required before a production-ready claim. No StartOS test device has
-been supplied for this release.
+remain required before a production-ready claim. Owner device testing is in progress; this release does not claim complete
+StartOS installation or backup/restore acceptance.
 
 Source: https://github.com/connorslab/paperclip-wallet-app. Based on Bark by
 Second and its contributors. MIT license.
