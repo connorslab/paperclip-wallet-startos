@@ -6,6 +6,6 @@ export const manifest = setupManifest({
   upstreamRepo: 'https://github.com/connorslab/paperclip-wallet-app',
   marketingUrl: 'https://ark.paperclippool.xyz/wallet/', donationUrl: null,
   description: { short, long }, volumes: ['main'],
-  images: { wallet: { source: { dockerTag: "ghcr.io/connorslab/paperclip-wallet-app:beta-bundled-36781589502@sha256:03ef8920c0142a13186a88ae606ac05b8d7c836e1cd40a49963eb4bf0b87fa7a" }, arch: ['x86_64', 'aarch64'] } },
+  images: { wallet: { source: { dockerTag: "ghcr.io/connorslab/paperclip-wallet-app:beta-36796846848@sha256:e7e7d46513f1816e6df1484b5bf65c8fac14abc170e22bebde9bcd999d7574f1" }, arch: ['x86_64', 'aarch64'] } },
   dependencies: {},
 })
