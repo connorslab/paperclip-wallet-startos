@@ -1,6 +1,6 @@
 # Paperclip Wallet · Beta
 
-Wait for the Paperclip Ark service to open before funding. Start with a small
+Check the Paperclip Ark service's live status before funding. Start with a small
 amount. This app is for Bitcoin Blake2b (XBT); SHA-256 BTC nodes are incompatible.
 
 1. Start the app. Use **Actions → Show wallet access token**. Keep it private.
@@ -25,7 +25,19 @@ or one SQLite file from a running wallet. Keep the complete wallet and recovery
 data. Do not run two instances from the same backup. Restore acceptance testing
 on a StartOS device remains pending for this beta.
 
-## Wallet 0.7.7
+## Wallet 0.8.0
+
+Lightning now has a reusable BOLT12 offer. Keep the wallet service online to
+answer new invoice requests; closing the browser is fine. Disabling an offer
+stops new requests but preserves payments already issued. The ASP must support
+reusable receiving. Existing BOLT11 payments continue to work.
+
+Receive cards display QR codes generated locally. The On-chain page can sign
+and verify exact messages with wallet-owned Taproot addresses using BIP322-simple.
+Review the complete message before signing. This does not broadcast a transaction.
+
+Back up the complete app before upgrading. After creating an offer, do not
+downgrade to an older wallet binary; it cannot read the new offer checkpoint.
 
 Use VTXOs & recovery to inspect spendable and locked funds, expiry block heights,
 and refresh controls. Keep the service online for automatic maintenance.

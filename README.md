@@ -4,7 +4,12 @@ This wrapper packages the public Paperclip wallet image for x86_64 and aarch64.
 New wallets point to https://ark.paperclippool.xyz. Keys stay on the user's host.
 The Paperclip Ark service is open in beta. Check its live status before funding.
 
-Package revision 0.7.7:0 adds Ark-send cost estimates and an approved debit cap.
+Package revision 0.8.0:0 adds reusable BOLT12 receiving through a compatible ASP,
+local QR codes for on-chain/Ark/Lightning receiving, and BIP322-simple on-chain
+message signing. Keep the wallet service online to answer new offer requests.
+Existing BOLT11 payments and Ark-send cost estimates remain supported.
+Back up the complete wallet before upgrading; do not downgrade after creating
+an offer because older binaries cannot read its new persistent checkpoint.
 It retains the unaudited-code warnings and setup risk acknowledgment. It includes the 0.7.5 Lightning flow, activity and VTXO dashboards,
 expiry warnings, tab session memory, live balance updates, and encoding fixes. Existing wallet data and authentication tokens are preserved.
 
