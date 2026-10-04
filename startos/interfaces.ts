@@ -1,12 +1,7 @@
-import { sdk } from './sdk'
-import { i18n } from './i18n'
-import { uiPort } from './utils'
-export const setInterfaces = sdk.setupInterfaces(async ({ effects }) => {
-  const host = sdk.MultiHost.of(effects, 'wallet-ui')
-  const origin = await host.bindPort(uiPort, { protocol: 'http' })
-  const ui = sdk.createInterface(effects, {
-    name: i18n('Web Interface'), id: 'ui', description: i18n('Authenticated Paperclip wallet'),
-    type: 'ui', masked: false, schemeOverride: null, username: null, path: '', query: {},
-  })
-  return [await origin.export([ui])]
+import {sdk} from './sdk'
+import {i18n} from './i18n'
+export const setInterfaces=sdk.setupInterfaces(async({effects})=>{
+const receipts=[]
+const host3000=sdk.MultiHost.of(effects,'wallet-interface');const origin3000=await host3000.bindPort(3000,{protocol:'http'});receipts.push(await origin3000.export([sdk.createInterface(effects,{id:'wallet-interface',name:i18n('Wallet interface'),description:i18n('Wallet interface'),type:'ui',masked:false,schemeOverride:null,username:null,path:'',query:{}})]))
+return receipts
 })

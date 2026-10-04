@@ -14,3 +14,16 @@ grepping may be non-conformant, and the recipe outranks it.
 
 Work this package's `TODO.md` from top to bottom. Keep `README.md` (technical reference for an AI support or administering agent) and `instructions.md` (end-user docs) in sync with your changes.
 
+## This repo
+
+<!--
+TODO: write the bullets for this package, then delete this comment.
+
+Only what someone *changing* this package needs and cannot get from README.md or
+instructions.md. What belongs here, and what does not, is set out under
+"AGENTS.md and CLAUDE.md":
+
+  ../start-technologies/projects/start-sdk/docs/src/project-structure.md
+
+A simple package needs none of this — delete the section rather than padding it.
+-->

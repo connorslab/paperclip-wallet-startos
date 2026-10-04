@@ -6,3 +6,7 @@ node_modules/
 docker-images
 javascript
 ncc-cache
+__pycache__/
+*.pyc
+.startos/
+*.key.pem

@@ -1,73 +1,42 @@
-# Paperclip Wallet · Beta
+# Paperclip Wallet Sideflash test
 
-Check the Paperclip Ark service's live status before funding. Start with a small
-amount. This app is for Bitcoin Blake2b (XBT); SHA-256 BTC nodes are incompatible.
+This is a separate **experimental, unaudited test app** for StartOS 0.4, x86-64 only. It does not upgrade an existing production app. It creates no channels, transfers no money, and copies no existing wallet data during installation. Runtime tests are not a StartOS device installation test.
 
-1. Start the app. Use **Actions → Show wallet access token**. Keep it private.
-2. Open the wallet interface and paste the token.
-3. Keep `https://ark.paperclippool.xyz` as the Ark server. Select XBT mainnet and
-   configure your compatible private blockchain RPC endpoint.
-4. Back up the complete app data before funding. A seed alone cannot restore all
-   Ark recovery state. Track expiry deadlines.
+Keep the entire app backup. Stop the app before a backup; the package refuses an active-state backup. Restore only with the original instance stopped. Never run both restored and original copies of the same Lightning or Ark identity. Never restore an old Lightning state over a live node.
 
-Automatic VTXO refresh runs while the wallet service is online. Closing a browser
-does not stop it. Refresh needs the Ark server and blockchain connection and may
-cost fees. Stopping the service stops maintenance. Withdrawals and emergency exits
-remove the affected VTXOs from refresh eligibility.
+## Documentation
 
-The pruned-node adapter is bundled but optional. Before creating a wallet with a
-pruned backend, follow [the adapter guide](https://github.com/connorslab/paperclip-wallet-app/blob/main/deployment/BUNDLED-PRUNED.md).
-Use the service container named `wallet`; run its helper as uid 1000. Indexing
-must finish before creation. The adapter and its index stop and persist with the app.
+- [Sideflash integration](https://github.com/connorslab/paperclip-wallet-app/blob/feature/sideflash/docs/sideflash.md)
 
-Stop the service before a manual full-volume backup. Do not copy only the seed
-or one SQLite file from a running wallet. Keep the complete wallet and recovery
-data. Do not run two instances from the same backup. Restore acceptance testing
-on a StartOS device remains pending for this beta.
+## What this app provides
 
-## Wallet 0.8.3
+Bitcoin wallet with on-chain, Ark, Lightning, and compact Sideflash send/receive support. Sideflash sits under Send & receive.
 
-Compatible servers check Lightning invoices before committing Ark funds. Eligible
-failures before payment dispatch can receive an ASP-funded reimbursement. Keep the
-wallet online to finish pending reimbursements. A payment being initiated does not
-mean it has settled; check its final status. Recovery reserves remain funded.
-Back up the complete app before upgrading and do not downgrade while a transfer or
-reimbursement is pending. Older wallets may see the same eligible reimbursement as
-a separate incoming Ark payment after syncing with an updated ASP.
+Authenticated wallet UI/API: 3000. StartOS supplies browser HTTPS. The optional chain adapter is internal.
 
-Lightning sends now choose inputs that can form valid HTLCs and change after
-recovery reserves. Enter an amount to review the estimated total before paying.
-If no usable combination exists, refresh eligible inputs or add Ark funds.
-The wallet does not automatically retry payments or consolidate funds.
+## Setup
 
-Lightning now has a reusable BOLT12 offer. Keep the wallet service online to
-answer new invoice requests; closing the browser is fine. Disabling an offer
-stops new requests but preserves payments already issued. The ASP must support
-reusable receiving. Existing BOLT11 payments continue to work.
+1. Start the isolated Ark app and copy its **Ark endpoint** LAN address and external port.
+2. Run **Configure test app**, set `asp_url` to that endpoint, and save the returned access token. Start the app and open **Wallet interface**.
+3. Unlock with the access token. Onboarding still requires your XBT node RPC connection and explicit creation of a new wallet. Use a reachable LAN IP and the correct RPC port/credentials; an internal Docker hostname from another machine is not a usable RPC endpoint.
+4. Create a fresh wallet, save its complete recovery backup, and verify the intended ASP identity. For a pruned backend, add `pruned: true`, `rpc_url`, `rpc_user`, and `rpc_password` to Configure test app. Restart, then use **Connection details and funding information** to obtain the internal adapter credentials for wallet onboarding. Wait for indexing before creating the wallet. The internal URL is for this wallet only, not another device.
+5. First create a reusable BOLT12 offer in the wallet. Under **Send & receive**, open Sideflash identity information and give the recipient public key to the test ASP operator for its allowlist. Once enabled, create the Sideflash address and QR code.
 
-Receive cards display QR codes generated locally. The On-chain page can sign
-and verify exact messages with wallet-owned Taproot addresses using BIP322-simple.
-Review the complete message before signing. This does not broadcast a transaction.
+Sideflash receiving is a development feature: the address is valid for at most 24 hours and the daemon must remain online for new BOLT12 requests. Closing the browser does not stop the daemon. Same-server payments use Ark; other-server payments use the authenticated embedded Lightning offer. Trust the full server identity through a separate authenticated channel. Do not switch routes or create a new payment ID while a previous result is uncertain.
 
-Back up the complete app before upgrading. After creating an offer, do not
-downgrade to an older wallet binary; it cannot read the new offer checkpoint.
+The setup ASP URL is an onboarding default. Changing it does not migrate an already-created wallet or its funds. Do not point this experimental wallet at production and assume Sideflash is enabled there.
 
-Use VTXOs & recovery to inspect spendable and locked funds, expiry block heights,
-and refresh controls. Keep the service online for automatic maintenance.
-The optional tab session survives page reloads; select Lock to clear it.
-Emergency exit tools remain separate from routine refresh.
+```json
+{
+  "network": "bitcoin",
+  "asp_url": "http://STARTOS_LAN_IP:ARK_INTERFACE_PORT"
+}
+```
 
-## Not independently audited
+## Backup and access
 
-Paperclip Wallet and its Ark integration have not received an independent
-security audit. Experimental software, no warranty. Tests do not guarantee
-security or recovery. Bugs can cause loss of funds. Use only amounts you can
-afford to lose.
+Stop the app, then use StartOS Backup. Back up all volumes, not only a seed. **Configure test app** can rotate the web access token while stopped. Client TLS credentials are independent of that token. Package signing keys are not wallet keys.
 
-Ark transfers show the recovery reserve and total balance reduction before
-confirmation. A higher send-time cost requires a new review. Quotes do not
-reserve funds. Recovery reserves are not separately refundable deposits.
+## Validation limits
 
-## 0.8.2 recovery allocation update
-
-Reduces ordinary Ark-to-Ark recovery allocations by 33.5% on compatible servers: 2,660 sats without change or 3,990 with change for one input. Preserves funded unilateral recovery and compatibility with older servers and recipients. Lightning reserves are unchanged. Back up the complete wallet before upgrading; do not downgrade with pending transfers. Beta, not independently audited.
+See VALIDATION.md in the feature branch. These files have not been installed on a StartOS device by the builder. No mainnet funds are included. Start with tiny, disposable test amounts only after verifying connectivity, backup/restore and identity.

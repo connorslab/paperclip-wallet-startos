@@ -1,6 +1,3 @@
 # Updating
 
-Upstream is connorslab/paperclip-wallet-app. Use a verified immutable image digest
-with amd64 and arm64 runtime checks. Update the manifest pin and current version.
-Run type checks, package verification, clean installation, restart, and complete
-backup/restore tests. Do not ship private keys or a local workspace signing key.
+Use feature/sideflash only. Keep each test app ID stable. Pin all three upstream source commits and record base/output image IDs in BUILD-PROVENANCE.json. Build native x86-64 images, run runtime checks, compile the SDK, then pack with the private workspace signing key. Never include that key, configuration, credentials, live volumes, or recovery phrases in git or the s9pk. No automated publication is enabled.

@@ -1,0 +1,4 @@
+{
+  "network": "bitcoin",
+  "asp_url": "http://STARTOS_LAN_IP:ARK_INTERFACE_PORT"
+}

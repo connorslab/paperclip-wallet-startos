@@ -1,55 +1,79 @@
-# Paperclip Wallet for StartOS 0.4 · Beta
+<p align="center"><img src="icon.svg" alt="Paperclip logo" width="96"></p>
 
-This wrapper packages the public Paperclip wallet image for x86_64 and aarch64.
-New wallets point to https://ark.paperclippool.xyz. Keys stay on the user's host.
-The Paperclip Ark service is open in beta. Check its live status before funding.
+# Paperclip Wallet on StartOS — Sideflash test
 
-Package revision 0.8.3:0 adds Lightning invoice preflight and persistent tracking of
-ASP-funded reimbursement for eligible failures before payment dispatch. It requires
-a compatible ASP for reimbursement. Initiation is distinguished from settlement.
-Recovery reserves remain funded. Back up the complete wallet and do not downgrade
-while a transfer or reimbursement is pending.
-It retains Lightning input selection for fragmented Ark balances and cost estimates.
-It retains reusable BOLT12 receiving through a compatible ASP,
-local QR codes for on-chain/Ark/Lightning receiving, and BIP322-simple on-chain
-message signing. Keep the wallet service online to answer new offer requests.
-Existing BOLT11 payments and Ark-send cost estimates remain supported.
-Back up the complete wallet before upgrading; do not downgrade after creating
-an offer because older binaries cannot read its new persistent checkpoint.
-It retains the unaudited-code warnings and setup risk acknowledgment. It includes the 0.7.5 Lightning flow, activity and VTXO dashboards,
-expiry warnings, tab session memory, live balance updates, and encoding fixes. Existing wallet data and authentication tokens are preserved.
+Bitcoin wallet with on-chain, Ark, Lightning, and compact Sideflash send/receive support. Sideflash sits under Send & receive.
 
-The image pin is in `startos/manifest/index.ts`. The single `main` volume mounts
-at `/data` and holds wallet data, authentication, and the optional pruned index.
-The entrypoint initializes directory ownership then drops to uid/gid 1000.
-Only the authenticated wallet interface on port 3000 is exported. The optional
-adapter listens at 127.0.0.1:18336 inside the same container.
+This is a separate **experimental, unaudited test app** for StartOS 0.4, x86-64 only. It does not upgrade an existing production app. It creates no channels, transfers no money, and copies no existing wallet data during installation. Runtime tests are not a StartOS device installation test.
 
-The owner-only access-token action reads the wallet's native persisted token;
-it never generates a replacement token or returns a mnemonic. Automatic refresh
-runs while the service is online. A withdrawn or exiting VTXO is not selected
-for refresh. See `instructions.md` for setup and complete backup requirements.
+Keep the entire app backup. Stop the app before a backup; the package refuses an active-state backup. Restore only with the original instance stopped. Never run both restored and original copies of the same Lightning or Ark identity. Never restore an old Lightning state over a live node.
 
-Build with the official StartOS 0.4 workspace and start-cli 2.1.0: `npm ci`,
-`npm run check`, then `make universal`. A successful package build does not prove
-installation or backup restoration on a StartOS device. Those acceptance tests
-remain required before a production-ready claim. Owner device testing is in progress; this release does not claim complete
-StartOS installation or backup/restore acceptance.
+## Table of Contents
 
-Source: https://github.com/connorslab/paperclip-wallet-app. Based on Bark by
-Second and its contributors. MIT license.
+- [Image and Container Runtime](#image-and-container-runtime)
+- [Volume and Data Layout](#volume-and-data-layout)
+- [File Models](#file-models)
+- [Dependencies](#dependencies)
+- [Network Access and Interfaces](#network-access-and-interfaces)
+- [Installation and First-Run Flow](#installation-and-first-run-flow)
+- [Actions](#actions)
+- [Tasks](#tasks)
+- [Health Checks](#health-checks)
+- [Backups and Restore](#backups-and-restore)
+- [Limitations and Differences](#limitations-and-differences)
+- [Quick Reference for AI Consumers](#quick-reference-for-ai-consumers)
 
-## Not independently audited
+## Image and Container Runtime
 
-Paperclip Wallet and its Ark integration have not received an independent
-security audit. Experimental software, no warranty. Tests do not guarantee
-security or recovery. Bugs can cause loss of funds. Use only amounts you can
-afford to lose.
+Bitcoin wallet with on-chain, Ark, Lightning, and compact Sideflash send/receive support. Sideflash sits under Send & receive. Images are embedded in the signed s9pk; the installer does not need the local build tags. Runtime base/output IDs and source revisions are recorded in BUILD-PROVENANCE.json. Wrappers run under the service container root, with umask 077 and persistent files mode 0600. No host Docker socket or privileged mode is mounted.
 
-Ark transfers show the recovery reserve and total balance reduction before
-confirmation. A higher send-time cost requires a new review. Quotes do not
-reserve funds. Recovery reserves are not separately refundable deposits.
+## Volume and Data Layout
 
-## 0.8.2 recovery allocation update
+`main`: wallet keys, SQLite/checkpoints, Sideflash receive records, authentication token and optional adapter index. `startos`: setup state and access token.
 
-Reduces ordinary Ark-to-Ark recovery allocations by 33.5% on compatible servers: 2,660 sats without change or 3,990 with change for one input. Preserves funded unilateral recovery and compatibility with older servers and recipients. Lightning reserves are unchanged. Back up the complete wallet before upgrading; do not downgrade with pending transfers. Beta, not independently audited.
+## File Models
+
+`startos/store.json`: configuration, access token and database secret. Configuration is validated by the packaged runtime before saving. Main rewrites `/data/settings.json` from that state. Secrets are never part of the image.
+
+## Dependencies
+
+An operator-supplied, reachable XBT node RPC endpoint is required. StartOS package dependencies are not hardcoded so compatible node implementations can be used.
+
+## Network Access and Interfaces
+
+Authenticated wallet UI/API: 3000. StartOS supplies browser HTTPS. The optional chain adapter is internal. Interfaces do not automatically enable internet or Tor access. Use the LAN for this first test.
+
+## Installation and First-Run Flow
+
+A critical setup task blocks first startup. Follow instructions.md. All identities are fresh and app IDs are separate from production.
+
+## Actions
+
+`configure`: stopped-only settings and web-token rotation.
+
+## Tasks
+
+A critical configuration task is registered until setup state exists.
+
+## Health Checks
+
+Readiness checks the primary listening port, and PostgreSQL for Ark. A listening port is not proof of chain synchronization, sufficient liquidity or payment delivery.
+
+## Backups and Restore
+
+All declared volumes are backed up together. The pre-backup guard rejects a started app. Ark uses stopped PostgreSQL physical storage, not a live directory copy. Restore with the original instance stopped. Device-level backup/restore remains a tester gate.
+
+## Limitations and Differences
+
+StartOS 0.4 x86-64 only; no 0.3.5 or ARM package is claimed. Experimental Sideflash recipient allowlist, server pin and 24-hour validity remain enforced. No production rollout or on-chain/Lightning spending is performed by package setup. Docker runtime checks do not verify StartOS host networking or platform restore behavior.
+
+## Quick Reference for AI Consumers
+
+```yaml
+package_id: paperclip-wallet-sideflash
+branch: feature/sideflash
+architectures: [x86_64]
+startos: "0.4"
+version: "0.1.0:0"
+production_ready: false
+```

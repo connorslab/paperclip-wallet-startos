@@ -1,6 +1,2 @@
 import { IMPOSSIBLE, VersionInfo } from '@start9labs/start-sdk'
-export const current = VersionInfo.of({
-  version: '0.8.3:0',
-  releaseNotes: { en_US: "Checks Lightning invoices before committing funds on compatible servers. Tracks ASP-funded reimbursement for eligible failures before payment dispatch, including pending and retried refunds. Lightning initiation is no longer described as successful payment. Recovery reserves remain funded. Older wallets can receive eligible credits through their existing Ark inbox. Back up the complete wallet before upgrading; do not downgrade with pending transfers or reimbursements. Beta, not independently audited." },
-  migrations: { up: async () => {}, down: IMPOSSIBLE },
-})
+export const current = VersionInfo.of({version:'0.1.0:0',releaseNotes:{"en_US": "Isolated Sideflash beta for Bitcoin. Separate keys and storage. Experimental and unaudited; configure before use.", "es_ES": "Beta aislada de Sideflash para Bitcoin. Claves y datos separados. Experimental y sin auditar; configurar antes de usar.", "de_DE": "Isolierte Sideflash-Beta für Bitcoin. Separate Schlüssel und Daten. Experimentell und ungeprüft; vor Nutzung konfigurieren.", "pl_PL": "Izolowana beta Sideflash dla Bitcoin. Oddzielne klucze i dane. Eksperymentalna i nieaudytowana; wymaga konfiguracji.", "fr_FR": "Bêta Sideflash isolée pour Bitcoin. Clés et données distinctes. Expérimentale et non auditée ; configurer avant utilisation."},migrations:{up:async()=>{},down:IMPOSSIBLE}})
