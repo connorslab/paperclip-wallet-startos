@@ -1,5 +1,5 @@
 {
-  "status": "Sideflash rc.1: runtime validated; StartOS device validation pending",
+  "status": "Sideflash rc.3: RTL and labeled setup forms",
   "source_repository": "https://github.com/connorslab/paperclip-wallet-app",
   "source_commit": "ef5edeffb18a87246cdb5d2e149eea66b07c12da",
   "architecture": "x86_64",
@@ -7,5 +7,5 @@
   "sdk": "2.0.9",
   "packager": "start-cli 2.1.0",
   "note": "Runtime images embedded in s9pk. Local experimental base images are not public registry tags. Artifact checksums supplied separately.",
-  "runtime_image_id": "sha256:c9e3d74d7433b5b5a708e87e054584a12fb36ff7f0f055ca23595318e86ca472"
+  "runtime_image_id": "sha256:49626597d3f0a5a92909f182ad9679d5c6a5d51054d2ef3da46046cf325a40e9"
 }

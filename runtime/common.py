@@ -23,7 +23,7 @@ def validate(kind,c):
         url(c['rpc_url'])
         for key in ['rpc_user','rpc_password']:
             if not c.get(key) or any(x in c[key] for x in ['\r','\n','\0']): raise ValueError('Invalid RPC credentials')
-    else: url(c['asp_url'])
+    if kind=='wallet': url(c['asp_url'])
     if kind=='cln':
         if not re.fullmatch(r'[A-Za-z0-9.-]{1,253}',c['tls_host']): raise ValueError('Invalid TLS hostname')
         pin=c.get('trusted_server_key','')
