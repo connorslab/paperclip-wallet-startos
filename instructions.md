@@ -25,7 +25,15 @@ or one SQLite file from a running wallet. Keep the complete wallet and recovery
 data. Do not run two instances from the same backup. Restore acceptance testing
 on a StartOS device remains pending for this beta.
 
-## Wallet 0.8.1
+## Wallet 0.8.3
+
+Compatible servers check Lightning invoices before committing Ark funds. Eligible
+failures before payment dispatch can receive an ASP-funded reimbursement. Keep the
+wallet online to finish pending reimbursements. A payment being initiated does not
+mean it has settled; check its final status. Recovery reserves remain funded.
+Back up the complete app before upgrading and do not downgrade while a transfer or
+reimbursement is pending. Older wallets may see the same eligible reimbursement as
+a separate incoming Ark payment after syncing with an updated ASP.
 
 Lightning sends now choose inputs that can form valid HTLCs and change after
 recovery reserves. Enter an amount to review the estimated total before paying.
