@@ -1,4 +1,4 @@
-ARG BASE_IMAGE=paperclip-wallet:sideflash-local-test
+ARG BASE_IMAGE=paperclip-wallet:sideflash-rc5
 FROM ${BASE_IMAGE}
 USER root
 COPY runtime /opt/startos

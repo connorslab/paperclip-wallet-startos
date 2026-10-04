@@ -20,7 +20,7 @@ Authenticated wallet UI/API: 3000. StartOS supplies browser HTTPS. The optional 
 2. Run **Configure test app**, set `asp_url` to that endpoint, and save the returned access token. Start the app and open **Wallet interface**.
 3. Unlock with the access token. Onboarding still requires your XBT node RPC connection and explicit creation of a new wallet. Use a reachable LAN IP and the correct RPC port/credentials; an internal Docker hostname from another machine is not a usable RPC endpoint.
 4. Create a fresh wallet, save its complete recovery backup, and verify the intended ASP identity. For a pruned backend, add `pruned: true`, `rpc_url`, `rpc_user`, and `rpc_password` to Configure test app. Restart, then use **Connection details and funding information** to obtain the internal adapter credentials for wallet onboarding. Wait for indexing before creating the wallet. The internal URL is for this wallet only, not another device.
-5. First create a reusable BOLT12 offer in the wallet. Under **Send & receive**, open Sideflash identity information and give the recipient public key to the test ASP operator for its allowlist. Once enabled, create the Sideflash address and QR code.
+5. Under **Send & receive**, open Sideflash identity information and give the recipient public key to the test ASP operator for its allowlist. The wallet creates a reusable offer automatically if none exists; disabled offers stay disabled. Once enabled, create the Sideflash address and QR code.
 
 Sideflash receiving is a development feature: the address is valid for at most 24 hours and the daemon must remain online for new BOLT12 requests. Closing the browser does not stop the daemon. Same-server payments use Ark; other-server payments use the authenticated embedded Lightning offer. Trust the full server identity through a separate authenticated channel. Do not switch routes or create a new payment ID while a previous result is uncertain.
 
@@ -44,3 +44,7 @@ See VALIDATION.md in the feature branch. These files have not been installed on 
 ## Labeled configuration form
 
 Configure test app now loads saved settings into separate fields. JSON examples above are reference only. Passwords and client private keys are masked. For Wallet, node RPC fields are only required when the pruned-node adapter is enabled; otherwise enter RPC settings during wallet onboarding. For Ark, enable Lightning and paste each certificate/key and endpoint into its matching field. Recipient public keys may be comma- or space-separated. Token rotation remains optional.
+
+## Onboarding defaults (rc.5)
+
+The new-wallet form loads the Ark server URL and network from StartOS settings when you unlock. Review the prefilled URL; no second entry is required. Existing wallets retain their persisted server and are not migrated by editing the StartOS default.

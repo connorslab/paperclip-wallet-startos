@@ -11,5 +11,5 @@ if c.get('pruned',False):
 root=Path('/data/wallet');root.mkdir(exist_ok=True,mode=0o700)
 token=os.environ.pop('STARTOS_TOKEN')
 write(root/'auth_token',base64.urlsafe_b64encode(b'\0'+bytes.fromhex(token)).decode().rstrip('='))
-os.environ.update(BARKD_DATADIR=str(root),BARKD_BIND_HOST='0.0.0.0',BARKD_BIND_PORT='3000',BARKD_UI_DEFAULT_ARK_SERVER=c['asp_url'],PAPERCLIP_XBT_MAINNET='1')
+os.environ.update(BARKD_DATADIR=str(root),BARKD_BIND_HOST='0.0.0.0',BARKD_BIND_PORT='3000',BARKD_UI_DEFAULT_ARK_SERVER=c['asp_url'],PAPERCLIP_XBT_MAINNET='1',BARKD_UI_DEFAULT_NETWORK='regtest' if c['network']=='regtest' else 'mainnet')
 os.execvp('python3',['python3','/usr/local/lib/paperclip/managed-chain.py','run'])

@@ -16,3 +16,7 @@ Not verified: installation on an actual StartOS device, platform backup/restore,
 ## rc.3
 
 All SDK packages compile. 26 configuration/connection tests pass across the packages. Isolated runtime integration verifies CLN identity persistence, authenticated RTL login and node/channel reads, ASP/watchman initialization, wallet creation, signed Sideflash address generation and wallet restart. No funds moved. Labeled forms retain the saved configuration schema and tokens. StartOS device installation and restore remain unverified.
+
+## rc.5
+
+Rust workspace `just checks` and StartOS SDK checks/builds passed. The native wallet is built with `barkd-web-ui,experimental-sideflash`. Exact runtime images passed isolated CLN/RTL authentication and identity persistence, CLN credential export/import, ASP/watchman initialization and configured Lightning status. Wallet defaults API returned the configured Ark URL; fresh wallet setup automatically created an offer, repeated setup reused it, signed Sideflash address generation succeeded (818 characters), restart preserved state, and a disabled offer remained disabled. No funds moved. StartOS device installation/restore and funded transfers with these exact artifacts remain unverified.

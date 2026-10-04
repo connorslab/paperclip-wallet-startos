@@ -45,7 +45,7 @@ Authenticated wallet UI/API: 3000. StartOS supplies browser HTTPS. The optional 
 
 ## Installation and First-Run Flow
 
-A critical setup task blocks first startup. Follow instructions.md. All identities are fresh and app IDs are separate from production.
+A critical setup task blocks first startup. Follow instructions.md. New-wallet onboarding uses the Ark server and network saved in StartOS; existing wallets keep their saved server. Opening Sideflash receiving automatically creates an amountless reusable BOLT12 offer when none exists, reuses an existing active offer, and never re-enables a disabled offer. The server must support offers and authorize the recipient. All identities are fresh and app IDs are separate from production.
 
 ## Actions
 

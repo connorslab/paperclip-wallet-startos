@@ -1,11 +1,15 @@
 {
-  "status": "Sideflash rc.3: RTL and labeled setup forms",
+  "status": "Sideflash rc.5: configured onboarding, automatic offers and accurate Lightning status",
   "source_repository": "https://github.com/connorslab/paperclip-wallet-app",
-  "source_commit": "ef5edeffb18a87246cdb5d2e149eea66b07c12da",
+  "source_commit": "50e1a33a98cb63450cdca17676af0e2322a102d6",
   "architecture": "x86_64",
   "startos": "0.4",
   "sdk": "2.0.9",
   "packager": "start-cli 2.1.0",
   "note": "Runtime images embedded in s9pk. Local experimental base images are not public registry tags. Artifact checksums supplied separately.",
-  "runtime_image_id": "sha256:49626597d3f0a5a92909f182ad9679d5c6a5d51054d2ef3da46046cf325a40e9"
+  "runtime_image_id": "sha256:dd2d42a9cdb7c8471391d87779b46eb197f5553b25c59f4926bf9835cf766dd5",
+  "wallet_build_features": [
+    "barkd-web-ui",
+    "experimental-sideflash"
+  ]
 }
