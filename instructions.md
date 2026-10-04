@@ -59,3 +59,7 @@ afford to lose.
 Ark transfers show the recovery reserve and total balance reduction before
 confirmation. A higher send-time cost requires a new review. Quotes do not
 reserve funds. Recovery reserves are not separately refundable deposits.
+
+## 0.8.2 recovery allocation update
+
+Reduces ordinary Ark-to-Ark recovery allocations by 33.5% on compatible servers: 2,660 sats without change or 3,990 with change for one input. Preserves funded unilateral recovery and compatibility with older servers and recipients. Lightning reserves are unchanged. Back up the complete wallet before upgrading; do not downgrade with pending transfers. Beta, not independently audited.
