@@ -4,11 +4,12 @@ This wrapper packages the public Paperclip wallet image for x86_64 and aarch64.
 New wallets point to https://ark.paperclippool.xyz. Keys stay on the user's host.
 The Paperclip Ark service is open in beta. Check its live status before funding.
 
-Package revision 0.8.3:0 adds Lightning invoice preflight and persistent tracking of
-ASP-funded reimbursement for eligible failures before payment dispatch. It requires
-a compatible ASP for reimbursement. Initiation is distinguished from settlement.
-Recovery reserves remain funded. Back up the complete wallet and do not downgrade
-while a transfer or reimbursement is pending.
+Package revision **0.9.0:0** reduces ordinary single-input Ark recovery allocations
+by about 60%: 1,056 sats without change or 1,584 sats with change on compatible
+servers. Lightning and tree recovery budgets are unchanged. Existing wallet data,
+signed exits, and older-wallet server compatibility are preserved. It adds payment
+review, smoother navigation, clearer status and connection settings.
+
 It retains Lightning input selection for fragmented Ark balances and cost estimates.
 It retains reusable BOLT12 receiving through a compatible ASP,
 local QR codes for on-chain/Ark/Lightning receiving, and BIP322-simple on-chain
@@ -53,3 +54,26 @@ reserve funds. Recovery reserves are not separately refundable deposits.
 ## 0.8.2 recovery allocation update
 
 Reduces ordinary Ark-to-Ark recovery allocations by 33.5% on compatible servers: 2,660 sats without change or 3,990 with change for one input. Preserves funded unilateral recovery and compatibility with older servers and recipients. Lightning reserves are unchanged. Back up the complete wallet before upgrading; do not downgrade with pending transfers. Beta, not independently audited.
+
+
+## Installed node setup
+
+The wrapper provides a **Node connection** action. Select the
+installed Knots Blake2b companion to reuse its RPC address and rotating cookie.
+The wallet can use a synchronized transaction index directly or the bundled
+private adapter when historical transactions need fetching. Manual connections
+remain available, and existing wallet configuration is preserved.
+
+The manifest pins the tested 0.9.0 wallet image by digest. Package and container
+checks do not replace installation, cookie-rotation, dependency-restart, or full
+backup/restore acceptance on a StartOS device; those checks remain unverified.
+
+
+## Release signatures
+
+Verify the release SHA256SUMS with the standard Paperclip OpenPGP key in
+RELEASE-SIGNING.md. StartOS also checks its native package signature. The build
+requires the persistent DEV_KEY repository secret and fails if it is missing;
+it must not create a disposable signing identity. Version 0.9.0 establishes this
+persistent package identity after earlier CI builds used temporary keys. Follow
+any StartOS developer-trust prompt and verify the GPG-signed manifest first.

@@ -9,7 +9,10 @@ const dict = {
   "This token grants spending access. Keep it private.": 6,
   "Wallet access": 7,
   "Paste this token into the wallet. Do not share it.": 8,
-  "Access token": 9
+  "Access token": 9,
+  "Node connection": 10,
+  "Reuse the installed XBT node or enter RPC settings in the wallet.": 11,
+  "This selects a connection for new wallets. Existing wallet settings are preserved.": 12
 } as const
 export type I18nKey = keyof typeof dict
 export type LangDict = Record<(typeof dict)[I18nKey], string>

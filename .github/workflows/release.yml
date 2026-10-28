@@ -1,12 +1,19 @@
 name: Release
 
 on:
-  push:
-    tags:
-      - 'v*.*'
+  workflow_dispatch:
 
 jobs:
+  signing-key:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Require the existing package signing identity
+        env:
+          DEV_KEY: ${{ secrets.DEV_KEY }}
+        run: |
+          test -n "$DEV_KEY" || { echo 'Configure the owner-controlled DEV_KEY before releasing packages.'; exit 1; }
   release:
+    needs: signing-key
     uses: Start9Labs/start-technologies/.github/workflows/release.yml@master
     with:
       RELEASE_REGISTRY: ${{ vars.RELEASE_REGISTRY }}

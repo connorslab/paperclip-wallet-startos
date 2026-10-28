@@ -3,10 +3,14 @@
 Check the Paperclip Ark service's live status before funding. Start with a small
 amount. This app is for Bitcoin Blake2b (XBT); SHA-256 BTC nodes are incompatible.
 
-1. Start the app. Use **Actions → Show wallet access token**. Keep it private.
+1. For PaulsCode's installed **Knots (BLAKE2b) Companion**, choose it under
+   **Actions → Node connection**. Otherwise keep **Manual RPC**. Start the app.
+   Use **Actions → Show wallet access token**. Keep it private.
 2. Open the wallet interface and paste the token.
 3. Keep `https://ark.paperclippool.xyz` as the Ark server. Select XBT mainnet and
-   configure your compatible private blockchain RPC endpoint.
+   choose **Use installed XBT node** when it is ready. Its RPC address and
+   authentication are supplied automatically. Manual RPC remains available for
+   other compatible nodes. Existing wallet connections are preserved.
 4. Back up the complete app data before funding. A seed alone cannot restore all
    Ark recovery state. Track expiry deadlines.
 
@@ -15,8 +19,10 @@ does not stop it. Refresh needs the Ark server and blockchain connection and may
 cost fees. Stopping the service stops maintenance. Withdrawals and emergency exits
 remove the affected VTXOs from refresh eligibility.
 
-The pruned-node adapter is bundled but optional. Before creating a wallet with a
-pruned backend, follow [the adapter guide](https://github.com/connorslab/paperclip-wallet-app/blob/main/deployment/BUNDLED-PRUNED.md).
+An installed node with a synchronized transaction index is used directly. A pruned
+installed node automatically uses the bundled private adapter; wait for indexing
+before creating the wallet. For a manually configured pruned backend, follow
+[the adapter guide](https://github.com/connorslab/paperclip-wallet-app/blob/main/deployment/BUNDLED-PRUNED.md).
 Use the service container named `wallet`; run its helper as uid 1000. Indexing
 must finish before creation. The adapter and its index stop and persist with the app.
 
@@ -71,3 +77,11 @@ reserve funds. Recovery reserves are not separately refundable deposits.
 ## 0.8.2 recovery allocation update
 
 Reduces ordinary Ark-to-Ark recovery allocations by 33.5% on compatible servers: 2,660 sats without change or 3,990 with change for one input. Preserves funded unilateral recovery and compatibility with older servers and recipients. Lightning reserves are unchanged. Back up the complete wallet before upgrading; do not downgrade with pending transfers. Beta, not independently audited.
+
+
+## 0.9.0 recovery allocation
+
+An ordinary one-input Ark send allocates 1,056 sats without change or 1,584 sats
+with change on a compatible server, about 60% less than 0.8.3. This is recovery
+funding, not a separate service fee. More inputs can cost more. Lightning and tree
+recovery budgets are unchanged. Review the total before confirming a payment.

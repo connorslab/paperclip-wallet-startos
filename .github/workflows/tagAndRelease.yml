@@ -10,7 +10,16 @@ concurrency:
   cancel-in-progress: true
 
 jobs:
+  signing-key:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Require the existing package signing identity
+        env:
+          DEV_KEY: ${{ secrets.DEV_KEY }}
+        run: |
+          test -n "$DEV_KEY" || { echo 'Configure the owner-controlled DEV_KEY before releasing packages.'; exit 1; }
   tag:
+    needs: signing-key
     uses: Start9Labs/start-technologies/.github/workflows/tagAndRelease.yml@master
     with:
       REFERENCE_REGISTRY: ${{ vars.REFERENCE_REGISTRY }}

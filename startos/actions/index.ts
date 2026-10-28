@@ -1,5 +1,6 @@
 import { sdk } from '../sdk'
 import { i18n } from '../i18n'
+import { selectNode } from './selectNode'
 const accessToken = sdk.Action.withoutInput('access-token', async () => ({
   name: i18n('Show wallet access token'),
   description: i18n('Retrieve the private token for the wallet interface.'),
@@ -11,4 +12,4 @@ const accessToken = sdk.Action.withoutInput('access-token', async () => ({
   return { version: '1', title: i18n('Wallet access'), message: i18n('Paste this token into the wallet. Do not share it.'),
     result: { type: 'single', name: i18n('Access token'), description: null, value: token, masked: true, copyable: true, qr: false } }
 })
-export const actions = sdk.Actions.of().addAction(accessToken)
+export const actions = sdk.Actions.of().addAction(accessToken).addAction(selectNode)
