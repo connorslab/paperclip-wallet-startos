@@ -4,7 +4,7 @@ This wrapper packages the public Paperclip wallet image for x86_64 and aarch64.
 New wallets point to https://ark.paperclippool.xyz. Keys stay on the user's host.
 The Paperclip Ark service is open in beta. Check its live status before funding.
 
-Package revision **0.9.0:0** reduces ordinary single-input Ark recovery allocations
+Package revision **0.9.1:0** reduces ordinary single-input Ark recovery allocations
 by about 60%: 1,056 sats without change or 1,584 sats with change on compatible
 servers. Lightning and tree recovery budgets are unchanged. Existing wallet data,
 signed exits, and older-wallet server compatibility are preserved. It adds payment
@@ -64,7 +64,7 @@ The wallet can use a synchronized transaction index directly or the bundled
 private adapter when historical transactions need fetching. Manual connections
 remain available, and existing wallet configuration is preserved.
 
-The manifest pins the tested 0.9.0 wallet image by digest. Package and container
+The manifest pins the tested 0.9.1 wallet image by digest. Package and container
 checks do not replace installation, cookie-rotation, dependency-restart, or full
 backup/restore acceptance on a StartOS device; those checks remain unverified.
 
@@ -77,3 +77,7 @@ requires the persistent DEV_KEY repository secret and fails if it is missing;
 it must not create a disposable signing identity. Version 0.9.0 establishes this
 persistent package identity after earlier CI builds used temporary keys. Follow
 any StartOS developer-trust prompt and verify the GPG-signed manifest first.
+
+## 0.9.1 setup hotfix
+
+Fixes new-wallet ASP defaults and setup layout. Paperclip is prefilled, configured custom servers are respected, and switching node modes preserves edits. Checkboxes and action buttons now have separate layouts. Existing wallet data, recovery formats, and fees are unchanged. Update in place after backing up the complete wallet.

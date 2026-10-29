@@ -1,6 +1,6 @@
 import { IMPOSSIBLE, VersionInfo } from '@start9labs/start-sdk'
 export const current = VersionInfo.of({
-  version: '0.9.0:0',
-  releaseNotes: { en_US: "Ordinary single-input Ark sends allocate 1,056 sats without change or 1,584 sats with change on compatible servers: about 60% less than 0.8.3. Existing signed exits and older-wallet support are preserved. Lightning and tree recovery budgets are unchanged. Smoother navigation, payment review and status, and clearer connection settings. Back up the complete wallet before upgrading; do not downgrade with pending transfers. Beta, not independently audited." },
+  version: '0.9.1:0',
+  releaseNotes: { en_US: "Fixes new-wallet ASP defaults and setup layout. Paperclip is prefilled, configured custom servers are respected, and switching node modes preserves edits. Checkboxes and action buttons now have separate layouts. Existing wallet data, recovery formats, and fees are unchanged. Update in place after backing up the complete wallet." },
   migrations: { up: async () => {}, down: IMPOSSIBLE },
 })
