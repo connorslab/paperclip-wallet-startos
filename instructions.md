@@ -85,3 +85,14 @@ An ordinary one-input Ark send allocates 1,056 sats without change or 1,584 sats
 with change on a compatible server, about 60% less than 0.8.3. This is recovery
 funding, not a separate service fee. More inputs can cost more. Lightning and tree
 recovery budgets are unchanged. Review the total before confirming a payment.
+
+## Connection and payment status
+
+Sign-in does not wait for the XBT node. If a balance is unavailable, use Settings
+→ Check connections. After a UTXO snapshot import, the node can reach the latest
+block while historical validation and transaction indexing are still running.
+Leave the node online; wallet operations may remain unavailable until it finishes.
+
+A green result means the wallet reports completion. On-chain submission still
+needs confirmations. If the result is unknown after an interruption, check Activity
+and payment status before trying again. The wallet never automatically resends it.

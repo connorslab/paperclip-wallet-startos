@@ -4,11 +4,16 @@ This wrapper packages the public Paperclip wallet image for x86_64 and aarch64.
 New wallets point to https://ark.paperclippool.xyz. Keys stay on the user's host.
 The Paperclip Ark service is open in beta. Check its live status before funding.
 
-Package revision **0.9.1:0** reduces ordinary single-input Ark recovery allocations
-by about 60%: 1,056 sats without change or 1,584 sats with change on compatible
-servers. Lightning and tree recovery budgets are unchanged. Existing wallet data,
-signed exits, and older-wallet server compatibility are preserved. It adds payment
-review, smoother navigation, clearer status and connection settings.
+Package revision **0.9.2:0** lets users sign in while the node is syncing or
+unavailable. Login instructions refer to the StartOS access-token action.
+Connection checks have time limits, and unavailable balances are marked clearly.
+Transaction result screens distinguish success, failure, pending confirmation,
+and unknown outcomes. Interrupted payments are never automatically retried.
+
+Wallet keys, authentication, connection settings, fees, and recovery formats are
+preserved. This release does not change the recovery allocations introduced in
+0.9.0: 1,056 sats without change or 1,584 sats with change for an ordinary
+single-input Ark send on compatible servers. Lightning reserves are unchanged.
 
 It retains Lightning input selection for fragmented Ark balances and cost estimates.
 It retains reusable BOLT12 receiving through a compatible ASP,
@@ -64,7 +69,7 @@ The wallet can use a synchronized transaction index directly or the bundled
 private adapter when historical transactions need fetching. Manual connections
 remain available, and existing wallet configuration is preserved.
 
-The manifest pins the tested 0.9.1 wallet image by digest. Package and container
+The manifest pins the wallet image by digest. Package and container
 checks do not replace installation, cookie-rotation, dependency-restart, or full
 backup/restore acceptance on a StartOS device; those checks remain unverified.
 
