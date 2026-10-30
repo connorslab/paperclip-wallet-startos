@@ -6,7 +6,7 @@ export const manifest = setupManifest({
   upstreamRepo: 'https://github.com/connorslab/paperclip-wallet-app',
   marketingUrl: 'https://ark.paperclippool.xyz/wallet/', donationUrl: null,
   description: { short, long }, volumes: ['main'],
-  images: { wallet: { source: { dockerTag: "ghcr.io/connorslab/paperclip-wallet-app:beta-41126306588@sha256:5da1bc86c801af9d61af2af9f0f6f501a51f36963885c2eaf8d652f0fe183877" }, arch: ['x86_64', 'aarch64'] } },
+  images: { wallet: { source: { dockerTag: "ghcr.io/connorslab/paperclip-wallet-app:beta-41138688397@sha256:0810fc0dccd565112c2e6b3c627bc3b6d658942deb9856d5301da27bd6c5b887" }, arch: ['x86_64', 'aarch64'] } },
   dependencies: {
     'knots-blake2b': {
       description: 'Use the installed Blake2b node for wallet RPC.', optional: true,

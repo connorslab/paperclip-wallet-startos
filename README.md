@@ -4,11 +4,11 @@ This wrapper packages the public Paperclip wallet image for x86_64 and aarch64.
 New wallets point to https://ark.paperclippool.xyz. Keys stay on the user's host.
 The Paperclip Ark service is open in beta. Check its live status before funding.
 
-Package revision **0.9.2:0** lets users sign in while the node is syncing or
-unavailable. Login instructions refer to the StartOS access-token action.
-Connection checks have time limits, and unavailable balances are marked clearly.
-Transaction result screens distinguish success, failure, pending confirmation,
-and unknown outcomes. Interrupted payments are never automatically retried.
+Package revision **0.9.3:0** fixes stalled blockchain RPC connections that could
+leave Ark balances unavailable after canceled requests or a server disconnect.
+Connections can recover without restarting the wallet. Interrupted payments are
+not automatically retried. It retains the responsive login and clear transaction
+result screens introduced in 0.9.2.
 
 Wallet keys, authentication, connection settings, fees, and recovery formats are
 preserved. This release does not change the recovery allocations introduced in
@@ -56,7 +56,7 @@ Back up the complete wallet before upgrading.
 
 The registry provides the signed x86-64 and ARM64 packages from the release.
 [Registry setup guide](https://start9.paperclip-xbt.xyz) ·
-[Signed release downloads](https://github.com/connorslab/paperclip-wallet-startos/releases/tag/v0.9.2-beta.1)
+[Signed release downloads](https://github.com/connorslab/paperclip-wallet-startos/releases/tag/v0.9.3-beta.1)
 
 ## Not independently audited
 

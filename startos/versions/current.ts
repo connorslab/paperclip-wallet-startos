@@ -1,6 +1,6 @@
 import { IMPOSSIBLE, VersionInfo } from '@start9labs/start-sdk'
 export const current = VersionInfo.of({
-  version: '0.9.2:0',
-  releaseNotes: { en_US: "Sign-in stays responsive when a node is syncing or unavailable. Clear connection messages, partial balance and activity loading, and dedicated transaction result screens distinguish success, failure, pending confirmation, and unknown outcomes. Interrupted payments are never automatically retried. Existing wallet data, authentication, node connections, fees, and recovery formats are preserved." },
+  version: '0.9.3:0',
+  releaseNotes: { en_US: "Fixes blockchain RPC connections that could remain stuck after a canceled request or a closed server connection, leaving Ark balances unavailable. Connections can recover without restarting the wallet. Existing keys, authentication, settings, fees, recovery data, and older-client compatibility are unchanged. Interrupted payments are not automatically retried. Back up the complete wallet before updating." },
   migrations: { up: async () => {}, down: IMPOSSIBLE },
 })
