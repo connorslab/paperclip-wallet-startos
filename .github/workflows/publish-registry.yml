@@ -1,0 +1,53 @@
+name: Publish signed packages to registry
+on:
+  workflow_dispatch:
+    inputs:
+      release:
+        description: Published release tag
+        required: true
+        default: v0.9.2-beta.1
+permissions:
+  contents: read
+concurrency:
+  group: publish-registry
+  cancel-in-progress: false
+jobs:
+  publish:
+    runs-on: ubuntu-24.04
+    steps:
+      - uses: actions/checkout@v4
+      - name: Verify registry tool and release packages
+        env:
+          GH_TOKEN: ${{ github.token }}
+          RELEASE: ${{ inputs.release }}
+        run: |
+          set -euo pipefail
+          [[ "$RELEASE" =~ ^v[0-9]+\.[0-9]+\.[0-9]+-beta\.[0-9]+$ ]]
+          gh release download start-registry/v1.2.1 -R Start9Labs/start-technologies -p start-registry_1.2.1_amd64.deb
+          echo 'bc6c91c753a2e1979d071b45a5d0f822cbaceaf6dcea1a0e25b9cf376bd936e8  start-registry_1.2.1_amd64.deb' | sha256sum -c -
+          dpkg-deb -x start-registry_1.2.1_amd64.deb registry-tool
+          mkdir packages
+          gh release download "$RELEASE" -R "$GITHUB_REPOSITORY" -D packages
+          gpg --import paperclip-release-signing-key.asc
+          gpg --status-fd 1 --verify packages/SHA256SUMS.asc packages/SHA256SUMS | tee verification.txt
+          grep -q 'VALIDSIG C286AC4A28045C7BDFDB4EA88DB2EC047CA729C5 ' verification.txt
+          (cd packages && sha256sum -c SHA256SUMS)
+      - name: Publish using the existing native package identity
+        env:
+          DEV_KEY: ${{ secrets.DEV_KEY }}
+          RELEASE: ${{ inputs.release }}
+        run: |
+          set -euo pipefail
+          umask 077
+          key="$RUNNER_TEMP/registry-id.pem"
+          trap 'rm -f "$key"' EXIT
+          test -n "$DEV_KEY"
+          printf '%s' "$DEV_KEY" > "$key"
+          openssl pkey -in "$key" -pubout -out "$RUNNER_TEMP/registry-pub.pem"
+          cmp "$RUNNER_TEMP/registry-pub.pem" packages/startos-package-signing-key.pem
+          for arch in x86_64 aarch64; do
+            registry-tool/usr/bin/start-registrybox start-registry \
+              -r https://start9.paperclip-xbt.xyz --id-key-path "$key" \
+              package add "packages/paperclip-wallet_${arch}.s9pk" \
+              --url "https://github.com/$GITHUB_REPOSITORY/releases/download/$RELEASE/paperclip-wallet_${arch}.s9pk"
+          done
