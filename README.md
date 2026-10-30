@@ -46,6 +46,18 @@ passed. Complete backup restoration and ARM device installation remain unverifie
 Source: https://github.com/connorslab/paperclip-wallet-app. Based on Bark by
 Second and its contributors. MIT license.
 
+## Install and update from the registry
+
+In StartOS 0.4, open **Marketplace**, open the registry selector, and choose
+**Add**. Enter `https://start9.paperclip-xbt.xyz`, save, then select **Paperclip**.
+Open **Paperclip Wallet Beta** to install. Existing installations can use the
+same registry to find updates in **Updates**; do not uninstall the wallet.
+Back up the complete wallet before upgrading.
+
+The registry provides the signed x86-64 and ARM64 packages from the release.
+[Registry setup guide](https://start9.paperclip-xbt.xyz) ·
+[Signed release downloads](https://github.com/connorslab/paperclip-wallet-startos/releases/tag/v0.9.2-beta.1)
+
 ## Not independently audited
 
 Paperclip Wallet and its Ark integration have not received an independent
