@@ -39,8 +39,9 @@ for refresh. See `instructions.md` for setup and complete backup requirements.
 Build with the official StartOS 0.4 workspace and start-cli 2.1.0: `npm ci`,
 `npm run check`, then `make universal`. A successful package build does not prove
 installation or backup restoration on a StartOS device. Those acceptance tests
-remain required before a production-ready claim. Owner device testing is in progress; this release does not claim complete
-StartOS installation or backup/restore acceptance.
+remain required before a production-ready claim. Version 0.9.2 was installed in place over 0.9.1 on an x86-64 StartOS device.
+Login, navigation, bounded connection checks, and key/configuration preservation
+passed. Complete backup restoration and ARM device installation remain unverified.
 
 Source: https://github.com/connorslab/paperclip-wallet-app. Based on Bark by
 Second and its contributors. MIT license.
@@ -70,8 +71,8 @@ private adapter when historical transactions need fetching. Manual connections
 remain available, and existing wallet configuration is preserved.
 
 The manifest pins the wallet image by digest. Package and container
-checks do not replace installation, cookie-rotation, dependency-restart, or full
-backup/restore acceptance on a StartOS device; those checks remain unverified.
+checks do not replace cookie-rotation, dependency-restart, ARM installation, or full
+backup/restore acceptance; those checks remain unverified for this release.
 
 
 ## Release signatures
