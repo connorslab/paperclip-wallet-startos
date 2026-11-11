@@ -4,11 +4,11 @@ This wrapper packages the public Paperclip wallet image for x86_64 and aarch64.
 New wallets point to https://ark.paperclippool.xyz. Keys stay on the user's host.
 The Paperclip Ark service is open in beta. Check its live status before funding.
 
-Package revision **0.9.3:0** fixes stalled blockchain RPC connections that could
-leave Ark balances unavailable after canceled requests or a server disconnect.
-Connections can recover without restarting the wallet. Interrupted payments are
-not automatically retried. It retains the responsive login and clear transaction
-result screens introduced in 0.9.2.
+Package revision **0.10.0:0** integrates Bark 0.8.1 with XBT support. It improves
+Lightning payment recovery, rejects expired WebSocket login tickets, fixes
+payment parsing, and updates on-chain signing. It retains the connection fixes
+from 0.9.3, responsive login, and clear transaction result screens. Interrupted
+payments are not automatically retried.
 
 Wallet keys, authentication, connection settings, fees, and recovery formats are
 preserved. This release does not change the recovery allocations introduced in
