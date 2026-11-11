@@ -31,10 +31,13 @@ or one SQLite file from a running wallet. Keep the complete wallet and recovery
 data. Do not run two instances from the same backup. Restore acceptance testing
 on a StartOS device remains pending for this beta.
 
-## Update to 0.9.3
+## Update to 0.10.0
 
 Update the existing wallet from the Paperclip registry; do not uninstall it.
-This update fixes stalled node connections that could leave balances unavailable.
+This update integrates Bark 0.8.1 payment recovery, authentication, parsing, and
+signing improvements while retaining the node connection fixes from 0.9.3.
+Saved connections, keys, and funded recovery are preserved. Back up the complete
+wallet first, and do not downgrade with pending payments or exits.
 If a balance remains unavailable, check the node connection and indexing status
 in Settings. An unavailable balance is not a zero balance.
 
