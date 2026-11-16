@@ -1,8 +1,9 @@
 # Release acceptance
 
-## 0.10.0:3 test candidate
+## 0.10.0:4 test candidate
 
-- [x] Pin the shared UI/payment improvements and Jam credential supervisor at c70ab3061cf1d64ee6fe894489a897062f0a72f2.
+- [x] Pin the shared UI/payment improvements and Jam credential supervisor at 168a247cde08d4479679775f30f76bab128db4c8.
+- [x] Include owner-only Jars creation, password-verified backup and interrupted-creation recovery.
 - [x] Include scoped phone-pairing clients/proxy; installed-host acceptance and paired sends remain open.
 - [x] Add optional bundled Jam with separate volumes, loopback HTTPS, restricted RPC and complete-volume backup definitions.
 - [ ] Build the pinned wallet source on both architectures and retain signed test artifacts.

@@ -31,11 +31,14 @@ or one SQLite file from a running wallet. Keep the complete wallet and recovery
 data. Do not run two instances from the same backup. Restore acceptance testing
 on a StartOS device remains pending for this beta.
 
-## Test candidate 0.10.0:3
+## Test candidate 0.10.0:4
 
 This is a test update, not the completed major release. It adds direct CLN/LND
 connections, improved payment status, Bridge status, QR signing and new navigation.
 Compact cards and toolbars reduce scrolling on phones and desktop displays.
+With bundled Jam enabled, Jars can create a separate wallet and guide its backup.
+If creation is interrupted, check that same wallet before retrying. Recovery
+words do not replace a complete host backup; paired phones cannot export them.
 Create a complete StartOS wallet backup, then install the supplied signed package
 as an update to the existing wallet. Do not uninstall or reset the wallet.
 Check the existing balance, history and saved connections before using new features.
