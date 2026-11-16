@@ -1,8 +1,8 @@
 # Paperclip Wallet for StartOS 0.4 · Beta
 
-## Private test candidate 0.10.0:4
+## Private test candidate 0.10.0:5
 
-This branch builds wallet source `168a247cde08d4479679775f30f76bab128db4c8`
+This branch builds wallet source `69c0cd8ae058dd1684139579ba888d305f53f8aa`
 from `./upstream` using the manifest's Docker build source. The branch/manual
 `test-candidate.yml` workflow checks out that exact revision, runs isolated daemon
 tests and signs both architectures with the existing package identity. It uploads
@@ -157,4 +157,9 @@ maker controls and status for up to 30 days; it does not grant main-wallet
 access, key export or payments. Individual devices can be revoked on the host.
 Jam lock/restart invalidates pairing sessions; unlock and create a new pairing.
 No raw Jam API port is exposed. Actual host pairing/Tor/TLS and restore tests
-remain required, as do first-run wallet creation and reviewed Jam payment flows.
+remain required, as do installed-host wallet creation/backup acceptance and reviewed Jam payment flows.
+
+Candidate 0.10.0:4 was cancelled before acceptance because the workflow checkout
+remained at an older source than the manifest. Do not use its artifacts. Revision
+0.10.0:5 reads the checkout commit from the manifest, rejects tracked source drift,
+checks the built daemon version and retains source provenance with the package.

@@ -19,22 +19,32 @@ jobs:
     timeout-minutes: 100
     steps:
       - uses: actions/checkout@v4
+      - name: Read pinned wallet source
+        id: wallet-source
+        run: |
+          python3 -m unittest discover -s scripts -p 'test_*.py'
+          revision=$(python3 scripts/pinned_source.py)
+          printf 'revision=%s\n' "$revision" >> "$GITHUB_OUTPUT"
       - uses: actions/checkout@v4
         with:
           repository: connorslab/paperclip-wallet-app
-          ref: c70ab3061cf1d64ee6fe894489a897062f0a72f2
+          ref: ${{ steps.wallet-source.outputs.revision }}
           path: upstream
       - uses: Start9Labs/start-technologies/.github/actions/setup-build-env@16edbd58ce7b19889b9217489f3b49ea1835deb7
       - name: Validate source and wrapper
         run: |
+          python3 scripts/pinned_source.py --checkout upstream --provenance > source-provenance.json
           npm ci
           npm run check
           (cd upstream && sha256sum -c SHARED-SOURCE.sha256)
           (cd upstream && PYTHONPATH=deployment python3 -m unittest test_package test_container test_platform_node test_managed_chain test_node_tor test_pruned_rpc)
       - name: Build and test isolated wallet
         run: |
-          docker build -f upstream/deployment/Dockerfile --build-arg BARK_VERSION=0.10.0 --build-arg GIT_HASH=c70ab3061cf1d64ee6fe894489a897062f0a72f2 -t paperclip-test:local upstream
+          revision=$(python3 scripts/pinned_source.py --checkout upstream)
+          docker build -f upstream/deployment/Dockerfile --build-arg BARK_VERSION=0.10.0 --build-arg "GIT_HASH=$revision" -t paperclip-test:local upstream
+          docker run --rm --network none --entrypoint paperclip-walletd paperclip-test:local --version | grep -F "$revision"
           docker run --rm --network none -v "$PWD/upstream:/tests:ro" --entrypoint python3 paperclip-test:local /tests/deployment/test_daemon.py
+          docker run --rm --network none -v "$PWD/upstream:/tests:ro" --entrypoint python3 paperclip-test:local /tests/deployment/desktop/test_native_daemon.py --binary /usr/local/bin/paperclip-walletd
       - name: Test the pinned Jam companion without live services
         run: |
           docker build -f upstream/deployment/jam/Dockerfile -t paperclip-jam:test upstream
@@ -58,6 +68,7 @@ jobs:
             *.s9pk
             *.s9pk.sha256
             manifest-*.json
+            source-provenance.json
           if-no-files-found: error
           retention-days: 14
           compression-level: 0

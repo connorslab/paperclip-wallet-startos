@@ -1,8 +1,8 @@
 # Release acceptance
 
-## 0.10.0:4 test candidate
+## 0.10.0:5 test candidate
 
-- [x] Pin the shared UI/payment improvements and Jam credential supervisor at 168a247cde08d4479679775f30f76bab128db4c8.
+- [x] Pin the shared UI/payment improvements and Jam credential supervisor at 69c0cd8ae058dd1684139579ba888d305f53f8aa.
 - [x] Include owner-only Jars creation, password-verified backup and interrupted-creation recovery.
 - [x] Include scoped phone-pairing clients/proxy; installed-host acceptance and paired sends remain open.
 - [x] Add optional bundled Jam with separate volumes, loopback HTTPS, restricted RPC and complete-volume backup definitions.
@@ -33,3 +33,8 @@ Bundled Jam acceptance still open:
 - Check actual cookie rotation, filter permissions, local TLS renewal and Jam outage behavior.
 - Restore all four volumes on an isolated host without starting a duplicate funded maker.
 - Complete mobile pairing and reviewed Jar sends/bond flows before release.
+
+Candidate 0.10.0:4 was cancelled before acceptance because the workflow checkout
+remained at an older source than the manifest. Do not use its artifacts. Revision
+0.10.0:5 reads the checkout commit from the manifest, rejects tracked source drift,
+checks the built daemon version and retains source provenance with the package.

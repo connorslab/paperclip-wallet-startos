@@ -31,7 +31,7 @@ or one SQLite file from a running wallet. Keep the complete wallet and recovery
 data. Do not run two instances from the same backup. Restore acceptance testing
 on a StartOS device remains pending for this beta.
 
-## Test candidate 0.10.0:4
+## Test candidate 0.10.0:5
 
 This is a test update, not the completed major release. It adds direct CLN/LND
 connections, improved payment status, Bridge status, QR signing and new navigation.
