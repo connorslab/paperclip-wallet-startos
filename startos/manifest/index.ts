@@ -8,7 +8,7 @@ export const manifest = setupManifest({
   description: { short, long }, volumes: ['main'],
   images: { wallet: { source: { dockerBuild: {
     workdir: './upstream', dockerfile: './upstream/deployment/Dockerfile',
-    buildArgs: { BARK_VERSION: '0.10.0', GIT_HASH: 'ef02db2372fe10c6e9f7b7c7d0a6c011999c8019' },
+    buildArgs: { BARK_VERSION: '0.10.0', GIT_HASH: 'dcce6d557a174074f4d8198214aca0dcd0fb351d' },
   } }, arch: ['x86_64', 'aarch64'] } },
   dependencies: {
     'knots-blake2b': {

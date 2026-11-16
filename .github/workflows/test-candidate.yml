@@ -22,7 +22,7 @@ jobs:
       - uses: actions/checkout@v4
         with:
           repository: connorslab/paperclip-wallet-app
-          ref: ef02db2372fe10c6e9f7b7c7d0a6c011999c8019
+          ref: dcce6d557a174074f4d8198214aca0dcd0fb351d
           path: upstream
       - uses: Start9Labs/start-technologies/.github/actions/setup-build-env@16edbd58ce7b19889b9217489f3b49ea1835deb7
       - name: Validate source and wrapper
@@ -33,7 +33,7 @@ jobs:
           (cd upstream && PYTHONPATH=deployment python3 -m unittest test_package test_container test_platform_node test_managed_chain test_node_tor test_pruned_rpc)
       - name: Build and test isolated wallet
         run: |
-          docker build -f upstream/deployment/Dockerfile --build-arg BARK_VERSION=0.10.0 --build-arg GIT_HASH=ef02db2372fe10c6e9f7b7c7d0a6c011999c8019 -t paperclip-test:local upstream
+          docker build -f upstream/deployment/Dockerfile --build-arg BARK_VERSION=0.10.0 --build-arg GIT_HASH=dcce6d557a174074f4d8198214aca0dcd0fb351d -t paperclip-test:local upstream
           docker run --rm --network none -v "$PWD/upstream:/tests:ro" --entrypoint python3 paperclip-test:local /tests/deployment/test_daemon.py
       - name: Sign test package with existing identity
         env:

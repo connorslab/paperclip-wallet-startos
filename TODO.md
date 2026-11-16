@@ -2,6 +2,7 @@
 
 ## 0.10.0:1 test candidate
 
+- Include the build 73 shared browser spacing improvements in the pinned source.
 - Build the pinned wallet source on both architectures and retain signed test artifacts.
 - Before a public release, replace the test Docker build source with a verified multi-architecture image digest.
 - Validate the native package, install/update behavior, and complete-wallet preservation.

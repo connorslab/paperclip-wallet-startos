@@ -35,6 +35,7 @@ on a StartOS device remains pending for this beta.
 
 This is a test update, not the completed major release. It adds direct CLN/LND
 connections, improved payment status, Bridge status, QR signing and new navigation.
+Compact cards and toolbars reduce scrolling on phones and desktop displays.
 Create a complete StartOS wallet backup, then install the supplied signed package
 as an update to the existing wallet. Do not uninstall or reset the wallet.
 Check the existing balance, history and saved connections before using new features.

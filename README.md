@@ -2,7 +2,7 @@
 
 ## Private test candidate 0.10.0:1
 
-This branch builds wallet source `ef02db2372fe10c6e9f7b7c7d0a6c011999c8019`
+This branch builds wallet source `dcce6d557a174074f4d8198214aca0dcd0fb351d`
 from `./upstream` using the manifest's Docker build source. The manual
 `test-candidate.yml` workflow checks out that exact revision, runs isolated daemon
 tests and signs both architectures with the existing package identity. It uploads
