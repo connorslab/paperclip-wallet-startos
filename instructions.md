@@ -31,7 +31,7 @@ or one SQLite file from a running wallet. Keep the complete wallet and recovery
 data. Do not run two instances from the same backup. Restore acceptance testing
 on a StartOS device remains pending for this beta.
 
-## Test candidate 0.10.0:1
+## Test candidate 0.10.0:2
 
 This is a test update, not the completed major release. It adds direct CLN/LND
 connections, improved payment status, Bridge status, QR signing and new navigation.
@@ -116,3 +116,17 @@ Leave the node online; wallet operations may remain unavailable until it finishe
 A green result means the wallet reports completion. On-chain submission still
 needs confirmations. If the result is unknown after an interruption, check Activity
 and payment status before trying again. The wallet never automatically resends it.
+
+
+## Jars in this test candidate
+
+After selecting your installed Knots (BLAKE2b) node, use the **Jars wallet**
+action to run the included JoinBlaket wallet. It has separate keys and five jars;
+you do not need to install a separate Jam package for this candidate. Wait for
+its local Jars listener to become ready before opening Jars in Paperclip.
+
+Changing this setting restarts Paperclip. Finish active operations first.
+Disabling Jars keeps its files for later recovery. Always back up the complete
+Paperclip service, including its Jars volumes; a main-wallet seed does not back
+up the separate Jam wallet. Mobile pairing and full host backup restoration
+still require acceptance before release. Do not expose the raw Jam API publicly.

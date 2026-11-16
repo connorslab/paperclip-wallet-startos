@@ -1,9 +1,9 @@
 # Paperclip Wallet for StartOS 0.4 · Beta
 
-## Private test candidate 0.10.0:1
+## Private test candidate 0.10.0:2
 
-This branch builds wallet source `dcce6d557a174074f4d8198214aca0dcd0fb351d`
-from `./upstream` using the manifest's Docker build source. The manual
+This branch builds wallet source `66c16e22d541b5ad92b121e1ae8b9d91eea1ca32`
+from `./upstream` using the manifest's Docker build source. The branch/manual
 `test-candidate.yml` workflow checks out that exact revision, runs isolated daemon
 tests and signs both architectures with the existing package identity. It uploads
 test artifacts only; it does not publish a registry entry, image or release.
@@ -37,8 +37,10 @@ an offer because older binaries cannot read its new persistent checkpoint.
 It retains the unaudited-code warnings and setup risk acknowledgment. It includes the 0.7.5 Lightning flow, activity and VTXO dashboards,
 expiry warnings, tab session memory, live balance updates, and encoding fixes. Existing wallet data and authentication tokens are preserved.
 
-The image pin is in `startos/manifest/index.ts`. The single `main` volume mounts
-at `/data` and holds wallet data, authentication, and the optional pruned index.
+The image pin is in `startos/manifest/index.ts`. The `main` volume mounts at `/data` in the wallet container and holds wallet
+data, authentication, and the optional pruned index. Separate `jam`, `jam-rpc`
+and `jam-public` volumes hold the Jars wallet, filter-client credentials and
+public HTTPS certificate. Complete backups include all four volumes.
 The entrypoint initializes directory ownership then drops to uid/gid 1000.
 Only the authenticated wallet interface on port 3000 is exported. The optional
 adapter listens at 127.0.0.1:18336 inside the same container.
@@ -94,7 +96,8 @@ The wallet can use a synchronized transaction index directly or the bundled
 private adapter when historical transactions need fetching. Manual connections
 remain available, and existing wallet configuration is preserved.
 
-The manifest pins the wallet image by digest. Package and container
+Published packages pin the wallet image by digest; this candidate builds the
+source revision recorded above. Package and container
 checks do not replace cookie-rotation, dependency-restart, ARM installation, or full
 backup/restore acceptance; those checks remain unverified for this release.
 
@@ -111,3 +114,35 @@ any StartOS developer-trust prompt and verify the GPG-signed manifest first.
 ## 0.9.1 setup hotfix
 
 Fixes new-wallet ASP defaults and setup layout. Paperclip is prefilled, configured custom servers are respected, and switching node modes preserves edits. Checkboxes and action buttons now have separate layouts. Existing wallet data, recovery formats, and fees are unchanged. Update in place after backing up the complete wallet.
+
+
+## Bundled JoinBlaket candidate
+
+The companion is built from the same pinned wallet source. Its Dockerfile pins
+Kilombino's multi-architecture Jam/XBT base by digest and applies the reviewed
+Paperclip companion. This is candidate packaging, not a production-ready image.
+
+The **Jars wallet** action is disabled by default and requires the installed
+Knots (BLAKE2b) backend. Enabling/disabling it changes service configuration and
+restarts Paperclip; it must not be changed during an active operation. Disabling
+it does not delete the separate Jam wallet or recovery journal.
+
+`jam-rpc` has the read-only dependency mount. Its small root supervisor copies
+the rotating cookie into its private container directory and starts the actual
+RPC listener as uid/gid1001 with no new privileges/capabilities. `jam` runs as
+uid1000 and mounts only the filter client cookie read-only, never the node volume.
+The client cookie is group-readable by1000 and persisted separately. Invalid or
+missing node cookies stop the filter. The upstream allowlist remains enforced.
+
+Jam uses its original entrypoint/Tor/TLS startup, binding HTTPS only to loopback.
+The wallet receives the exported public certificate and validates HTTPS to
+localhost:28183. It does not mount Jam wallet files or the TLS private key. The
+wallet daemon has no Jam startup dependency. No raw Jam, Tor or filter port is
+exported by StartOS; port3000 remains the sole authenticated interface.
+
+TypeScript and JavaScript checks establish packaging consistency only. Native
+installation, cookie rotation across an actual dependency restart, node RPC
+permissions, TLS/certificate renewal, full backup restoration, mobile pairing,
+and live Jam payments remain acceptance gates. Mobile pairing is not implemented
+by exposing this loopback API. The port health checks assert listener readiness,
+not node synchronization, signer readiness or payment settlement.
