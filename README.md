@@ -1,5 +1,17 @@
 # Paperclip Wallet for StartOS 0.4 · Beta
 
+## Private test candidate 0.10.0:1
+
+This branch builds wallet source `ef02db2372fe10c6e9f7b7c7d0a6c011999c8019`
+from `./upstream` using the manifest's Docker build source. The manual
+`test-candidate.yml` workflow checks out that exact revision, runs isolated daemon
+tests and signs both architectures with the existing package identity. It uploads
+test artifacts only; it does not publish a registry entry, image or release.
+Locally, place that exact source revision at `./upstream` before running `make`.
+The package ID, main volume, existing connections and token remain unchanged.
+An in-place update requires a complete stopped-wallet backup first. Production,
+restore, ARM hardware and live payment acceptance remain separate gates.
+
 This wrapper packages the public Paperclip wallet image for x86_64 and aarch64.
 New wallets point to https://ark.paperclippool.xyz. Keys stay on the user's host.
 The Paperclip Ark service is open in beta. Check its live status before funding.

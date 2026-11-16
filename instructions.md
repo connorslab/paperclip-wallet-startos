@@ -31,6 +31,15 @@ or one SQLite file from a running wallet. Keep the complete wallet and recovery
 data. Do not run two instances from the same backup. Restore acceptance testing
 on a StartOS device remains pending for this beta.
 
+## Test candidate 0.10.0:1
+
+This is a test update, not the completed major release. It adds direct CLN/LND
+connections, improved payment status, Bridge status, QR signing and new navigation.
+Create a complete StartOS wallet backup, then install the supplied signed package
+as an update to the existing wallet. Do not uninstall or reset the wallet.
+Check the existing balance, history and saved connections before using new features.
+If a payment status is uncertain, check that payment rather than sending again.
+
 ## Update to 0.10.0
 
 Update the existing wallet from the Paperclip registry; do not uninstall it.

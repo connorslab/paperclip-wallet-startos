@@ -1,8 +1,9 @@
 # Release acceptance
 
-## 0.10.0 candidate
+## 0.10.0:1 test candidate
 
-- Replace the manifest's 0.9.3 image pin with the verified 0.10.0 multi-architecture digest before building a release.
+- Build the pinned wallet source on both architectures and retain signed test artifacts.
+- Before a public release, replace the test Docker build source with a verified multi-architecture image digest.
 - Validate the native package, install/update behavior, and complete-wallet preservation.
 - Publish only after the compatible ASP is deployed and its readiness checks pass.
 - Keep the existing native signing identity and sign release checksums with the standard release key.

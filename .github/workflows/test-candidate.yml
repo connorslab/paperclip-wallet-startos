@@ -1,0 +1,59 @@
+name: Private test candidate
+on:
+  push:
+    branches: [codex/test-package-71]
+  workflow_dispatch:
+permissions:
+  contents: read
+jobs:
+  package:
+    strategy:
+      fail-fast: false
+      matrix:
+        include:
+          - arch: x86_64
+            runner: ubuntu-24.04
+          - arch: aarch64
+            runner: ubuntu-24.04-arm
+    runs-on: ${{ matrix.runner }}
+    timeout-minutes: 100
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/checkout@v4
+        with:
+          repository: connorslab/paperclip-wallet-app
+          ref: ef02db2372fe10c6e9f7b7c7d0a6c011999c8019
+          path: upstream
+      - uses: Start9Labs/start-technologies/.github/actions/setup-build-env@16edbd58ce7b19889b9217489f3b49ea1835deb7
+      - name: Validate source and wrapper
+        run: |
+          npm ci
+          npm run check
+          (cd upstream && sha256sum -c SHARED-SOURCE.sha256)
+          (cd upstream && PYTHONPATH=deployment python3 -m unittest test_package test_container test_platform_node test_managed_chain test_node_tor test_pruned_rpc)
+      - name: Build and test isolated wallet
+        run: |
+          docker build -f upstream/deployment/Dockerfile --build-arg BARK_VERSION=0.10.0 --build-arg GIT_HASH=ef02db2372fe10c6e9f7b7c7d0a6c011999c8019 -t paperclip-test:local upstream
+          docker run --rm --network none -v "$PWD/upstream:/tests:ro" --entrypoint python3 paperclip-test:local /tests/deployment/test_daemon.py
+      - name: Sign test package with existing identity
+        env:
+          DEV_KEY: ${{ secrets.DEV_KEY }}
+        run: |
+          umask 077
+          test -n "$DEV_KEY"
+          mkdir -p .startos
+          printf '%s' "$DEV_KEY" > .startos/build-key
+          trap 'rm -f .startos/build-key' EXIT
+          make arch/${{ matrix.arch }}
+          sha256sum paperclip-wallet_${{ matrix.arch }}.s9pk > paperclip-wallet_${{ matrix.arch }}.s9pk.sha256
+          start-cli s9pk inspect paperclip-wallet_${{ matrix.arch }}.s9pk manifest > manifest-${{ matrix.arch }}.json
+      - uses: actions/upload-artifact@v4
+        with:
+          name: paperclip-test-${{ matrix.arch }}
+          path: |
+            *.s9pk
+            *.s9pk.sha256
+            manifest-*.json
+          if-no-files-found: error
+          retention-days: 14
+          compression-level: 0

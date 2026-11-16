@@ -4,5 +4,7 @@ node_modules/
 .DS_Store
 .vscode/
 docker-images
+upstream/
+.startos/
 javascript
 ncc-cache
