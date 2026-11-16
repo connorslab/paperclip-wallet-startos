@@ -1,8 +1,8 @@
 # Paperclip Wallet for StartOS 0.4 · Beta
 
-## Private test candidate 0.10.0:2
+## Private test candidate 0.10.0:3
 
-This branch builds wallet source `66c16e22d541b5ad92b121e1ae8b9d91eea1ca32`
+This branch builds wallet source `c70ab3061cf1d64ee6fe894489a897062f0a72f2`
 from `./upstream` using the manifest's Docker build source. The branch/manual
 `test-candidate.yml` workflow checks out that exact revision, runs isolated daemon
 tests and signs both architectures with the existing package identity. It uploads
@@ -146,3 +146,13 @@ permissions, TLS/certificate renewal, full backup restoration, mobile pairing,
 and live Jam payments remain acceptance gates. Mobile pairing is not implemented
 by exposing this loopback API. The port health checks assert listener readiness,
 not node synchronization, signer readiness or payment settlement.
+
+
+The candidate also supports **Jars → Pair a phone** for a running, unlocked Jam
+wallet. Use the Paperclip HTTPS/onion address, scan the private code in mobile
+Jars, review its wallet and scope, then verify/save. Access covers receiving,
+maker controls and status for up to 30 days; it does not grant main-wallet
+access, key export or payments. Individual devices can be revoked on the host.
+Jam lock/restart invalidates pairing sessions; unlock and create a new pairing.
+No raw Jam API port is exposed. Actual host pairing/Tor/TLS and restore tests
+remain required, as do first-run wallet creation and reviewed Jam payment flows.

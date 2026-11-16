@@ -1,8 +1,9 @@
 # Release acceptance
 
-## 0.10.0:2 test candidate
+## 0.10.0:3 test candidate
 
-- [x] Pin the shared UI/payment improvements and Jam credential supervisor at 66c16e22d541b5ad92b121e1ae8b9d91eea1ca32.
+- [x] Pin the shared UI/payment improvements and Jam credential supervisor at c70ab3061cf1d64ee6fe894489a897062f0a72f2.
+- [x] Include scoped phone-pairing clients/proxy; installed-host acceptance and paired sends remain open.
 - [x] Add optional bundled Jam with separate volumes, loopback HTTPS, restricted RPC and complete-volume backup definitions.
 - [ ] Build the pinned wallet source on both architectures and retain signed test artifacts.
 - Before a public release, replace the test Docker build source with a verified multi-architecture image digest.

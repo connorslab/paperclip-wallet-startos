@@ -31,7 +31,7 @@ or one SQLite file from a running wallet. Keep the complete wallet and recovery
 data. Do not run two instances from the same backup. Restore acceptance testing
 on a StartOS device remains pending for this beta.
 
-## Test candidate 0.10.0:2
+## Test candidate 0.10.0:3
 
 This is a test update, not the completed major release. It adds direct CLN/LND
 connections, improved payment status, Bridge status, QR signing and new navigation.
@@ -130,3 +130,13 @@ Disabling Jars keeps its files for later recovery. Always back up the complete
 Paperclip service, including its Jars volumes; a main-wallet seed does not back
 up the separate Jam wallet. Mobile pairing and full host backup restoration
 still require acceptance before release. Do not expose the raw Jam API publicly.
+
+
+The candidate also supports **Jars → Pair a phone** for a running, unlocked Jam
+wallet. Use the Paperclip HTTPS/onion address, scan the private code in mobile
+Jars, review its wallet and scope, then verify/save. Access covers receiving,
+maker controls and status for up to 30 days; it does not grant main-wallet
+access, key export or payments. Individual devices can be revoked on the host.
+Jam lock/restart invalidates pairing sessions; unlock and create a new pairing.
+No raw Jam API port is exposed. Actual host pairing/Tor/TLS and restore tests
+remain required, as do first-run wallet creation and reviewed Jam payment flows.
