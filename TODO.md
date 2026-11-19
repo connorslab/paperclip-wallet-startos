@@ -1,8 +1,8 @@
 # Release acceptance
 
-## 0.10.0:5 test candidate
+## 0.10.0:6 test candidate
 
-- [x] Pin the shared UI/payment improvements and Jam credential supervisor at 69c0cd8ae058dd1684139579ba888d305f53f8aa.
+- [x] Pin the current UI, BOLT12 Bridge and payment recovery source at d90af29e4b5628ee00b8e6c63a1b1699ebd758c8.
 - [x] Include owner-only Jars creation, password-verified backup and interrupted-creation recovery.
 - [x] Include scoped phone-pairing clients/proxy; installed-host acceptance and paired sends remain open.
 - [x] Add optional bundled Jam with separate volumes, loopback HTTPS, restricted RPC and complete-volume backup definitions.
@@ -36,5 +36,9 @@ Bundled Jam acceptance still open:
 
 Candidate 0.10.0:4 was cancelled before acceptance because the workflow checkout
 remained at an older source than the manifest. Do not use its artifacts. Revision
-0.10.0:5 reads the checkout commit from the manifest, rejects tracked source drift,
+0.10.0:6 reads the checkout commit from the manifest, rejects tracked source drift,
 checks the built daemon version and retains source provenance with the package.
+
+Candidate 0.10.0:6 supersedes the older 0.10.0:5 test artifacts. It preserves the
+package identity, all volumes and optional Jam setting. This is an authorized
+private test update; public production acceptance remains incomplete.

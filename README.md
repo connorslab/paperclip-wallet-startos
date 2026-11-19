@@ -1,14 +1,14 @@
 # Paperclip Wallet for StartOS 0.4 · Beta
 
-## Private test candidate 0.10.0:5
+## Private test candidate 0.10.0:6
 
-This branch builds wallet source `69c0cd8ae058dd1684139579ba888d305f53f8aa`
+This branch builds wallet source `d90af29e4b5628ee00b8e6c63a1b1699ebd758c8`
 from `./upstream` using the manifest's Docker build source. The branch/manual
 `test-candidate.yml` workflow checks out that exact revision, runs isolated daemon
 tests and signs both architectures with the existing package identity. It uploads
 test artifacts only; it does not publish a registry entry, image or release.
 The candidate includes first-run Jars creation and password-verified backup in
-the owner UI. Phone grants cannot create wallets or export recovery words.
+the owner UI, current payment-recovery fixes, and reusable BOLT12 Bridge conversions. Phone grants cannot create wallets or export recovery words.
 Locally, place that exact source revision at `./upstream` before running `make`.
 The package ID, main volume, existing connections and token remain unchanged.
 An in-place update requires a complete stopped-wallet backup first. Production,
@@ -161,5 +161,5 @@ remain required, as do installed-host wallet creation/backup acceptance and revi
 
 Candidate 0.10.0:4 was cancelled before acceptance because the workflow checkout
 remained at an older source than the manifest. Do not use its artifacts. Revision
-0.10.0:5 reads the checkout commit from the manifest, rejects tracked source drift,
+0.10.0:6 reads the checkout commit from the manifest, rejects tracked source drift,
 checks the built daemon version and retains source provenance with the package.

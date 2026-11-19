@@ -31,11 +31,12 @@ or one SQLite file from a running wallet. Keep the complete wallet and recovery
 data. Do not run two instances from the same backup. Restore acceptance testing
 on a StartOS device remains pending for this beta.
 
-## Test candidate 0.10.0:5
+## Test candidate 0.10.0:6
 
 This is a test update, not the completed major release. It adds direct CLN/LND
 connections, improved payment status, Bridge status, QR signing and new navigation.
-Compact cards and toolbars reduce scrolling on phones and desktop displays.
+It also includes reusable BOLT12 Bridge offers, reviewed Jars payments and bonds,
+and current recovery fixes. Compact cards and toolbars reduce scrolling.
 With bundled Jam enabled, Jars can create a separate wallet and guide its backup.
 If creation is interrupted, check that same wallet before retrying. Recovery
 words do not replace a complete host backup; paired phones cannot export them.
