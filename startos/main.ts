@@ -3,7 +3,8 @@ import { i18n } from './i18n'
 import { uiPort } from './utils'
 import { storeJson } from './fileModels/store.json'
 export const main = sdk.setupMain(async ({ effects }) => {
-  const bundledJam = await storeJson.read((s) => s.bundledJam).const(effects)
+  const bundledJam =
+    (await storeJson.read((s) => s.bundledJam).const(effects)) ?? true
   const backend = await storeJson.read((s) => s.backend).const(effects)
   let mounts = sdk.Mounts.of().mountVolume({
     volumeId: 'main',

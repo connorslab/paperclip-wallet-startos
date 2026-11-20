@@ -17,7 +17,7 @@ async function scenario(saved, bridge = '127.0.0.1:18443') {
     host:{getBridgeAddress:(_effects,request)=>{assert.equal(request.packageId,'knots-blake2b');bridgeRequests++;return {const:async()=>bridge};}},
     useEntrypoint:()=>['entrypoint'],
   };
-  const store = {read:fn=>({const:async()=>fn(schema.parse(saved))})};
+  const store = {read:fn=>({const:async()=>saved===null?null:fn(schema.parse(saved))})};
   function load(file) {
     if(cache.has(file))return cache.get(file).exports;
     const module={exports:{}};cache.set(file,module);
@@ -37,13 +37,13 @@ async function scenario(saved, bridge = '127.0.0.1:18443') {
   return {deps,items:daemons.items,bridgeRequests};
 }
 (async()=>{
-  for(const saved of [{},{backend:'manual'},{backend:'knots-blake2b'},{backend:'manual',bundledJam:true}]){
+  for(const saved of [null,{},{backend:'manual'},{backend:'knots-blake2b'},{backend:'manual',bundledJam:true}]){
     const {deps,items}=await scenario(saved);
     assert(deps['knots-blake2b'],'Fresh/old installations declare the node dependency');
     assert(items.jam&&items['jam-rpc'],'Bundled runtime starts without a settings action');
     assert.equal(items.wallet.exec.env.BARKD_JOINBLAKET_URL,'https://localhost:28183');
     assert.equal(items['jam-rpc'].exec.env.PAPERCLIP_NODE_RPC_URL,'http://127.0.0.1:18443');
-    assert.equal(items.wallet.exec.env.PAPERCLIP_NODE_RPC_URL,saved.backend==='knots-blake2b'?'http://127.0.0.1:18443':undefined,'Jars must not change main wallet node selection');
+    assert.equal(items.wallet.exec.env.PAPERCLIP_NODE_RPC_URL,saved?.backend==='knots-blake2b'?'http://127.0.0.1:18443':undefined,'Jars must not change main wallet node selection');
     assert.equal(items.wallet.requires.length,0,'Jars outages must not block wallet recovery');
     assert(!items.jam.subcontainer.mounts.items.some(item=>item.dependency),'Jam never mounts node credentials');
     assert(items['jam-rpc'].subcontainer.mounts.items.some(item=>item.dependency?.readonly));

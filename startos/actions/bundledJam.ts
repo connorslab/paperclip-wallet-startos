@@ -30,9 +30,10 @@ export const bundledJam = sdk.Action.withInput(
   }),
   inputSpec,
   async () => ({
-    enabled: (await storeJson.read((s) => s.bundledJam).once())
-      ? ('enabled' as const)
-      : ('disabled' as const),
+    enabled:
+      ((await storeJson.read((s) => s.bundledJam).once()) ?? true)
+        ? ('enabled' as const)
+        : ('disabled' as const),
   }),
   async ({ effects, input }) => {
     await storeJson.merge(effects, { bundledJam: input.enabled === 'enabled' })
