@@ -157,3 +157,11 @@ If none is published, enable Tor for that interface through StartOS or use a
 reachable HTTPS address. This package does not change the host's Tor settings.
 The phone starts embedded Tor automatically after review. No raw Jam API port
 or main-wallet credential is shared. Installed Tor pairing remains a test gate.
+
+## Jars order book
+
+Open **Jars → Order book** to browse your host’s current offers. Compare a CoinJoin
+amount, sort by fee or capacity, and filter for verified bonded offers covering
+that amount. Refresh when the snapshot is stale. Browsing does not start a maker,
+change your maker fee or send a payment. Updated paired mobile apps can read the
+same book over Tor.

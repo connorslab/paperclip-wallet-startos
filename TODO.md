@@ -1,8 +1,8 @@
 # Release acceptance
 
-## 0.10.0:8 test candidate
+## 0.10.0:9 test candidate
 
-- [x] Pin the current UI, BOLT12 Bridge and payment recovery source at 7f60cc0cbe98bec3fd86b3ab142c1582e6ab440d.
+- [x] Pin the current UI, BOLT12 Bridge and payment recovery source at b82cbbdf116064d34a0fac0164a8068bc4d4ef81.
 - [x] Include owner-only Jars creation, password-verified backup and interrupted-creation recovery.
 - [x] Include scoped phone-pairing clients/proxy; installed-host acceptance and paired sends remain open.
 - [x] Enable integrated bundled Jam by default with separate volumes, loopback HTTPS, restricted RPC and complete-volume backup definitions.
@@ -10,7 +10,8 @@
 - [x] Separate the Jars node dependency from the main wallet backend; preserve explicit disable choices.
 - [x] Execute fresh/upgrade/disabled/missing-node daemon definitions in isolated contract tests.
 - [x] Validate existing onion-address discovery, absence fallback and unchanged main-wallet backend.
-- [ ] Build and verify 0.10.0:8 with the Tor pairing source pin.
+- [x] Build candidate 0.10.0:8 with the Tor pairing source pin in CI (artifact-only; not distributed).
+- [ ] Build and verify 0.10.0:9 with the Jars order-book source pin.
 - Before a public release, replace the test Docker build source with a verified multi-architecture image digest.
 - Validate the native package, install/update behavior, and complete-wallet preservation.
 - Publish only after the compatible ASP is deployed and its readiness checks pass.

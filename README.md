@@ -1,14 +1,17 @@
 # Paperclip Wallet for StartOS 0.4 · Beta
 
-## Private test candidate 0.10.0:7
+## Private test candidate 0.10.0:9
 
-This branch builds wallet source `3066e2308fe5c0bb1cc234c76ff212d4713d87b9`
+This branch builds wallet source `b82cbbdf116064d34a0fac0164a8068bc4d4ef81`
 from `./upstream` using the manifest's Docker build source. The branch/manual
 `test-candidate.yml` workflow checks out that exact revision, runs isolated daemon
 tests and signs both architectures with the existing package identity. It uploads
 test artifacts only; it does not publish a registry entry, image or release.
 The candidate includes first-run Jars creation and password-verified backup in
 the owner UI, current payment-recovery fixes, and reusable BOLT12 Bridge conversions. Phone grants cannot create wallets or export recovery words.
+The Jars order book shows supported public offers with fee/capacity sorting,
+verified-bond eligibility filtering and pagination. Existing scoped Tor phone
+pairing can read it without new permissions. No maker terms change while browsing.
 Locally, place that exact source revision at `./upstream` before running `make`.
 The package ID, main volume, existing connections and token remain unchanged.
 An in-place update requires a complete stopped-wallet backup first. Production,
