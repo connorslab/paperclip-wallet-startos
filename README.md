@@ -165,3 +165,11 @@ Candidate 0.10.0:4 was cancelled before acceptance because the workflow checkout
 remained at an older source than the manifest. Do not use its artifacts. Revision
 0.10.0:6 reads the checkout commit from the manifest, rejects tracked source drift,
 checks the built daemon version and retains source provenance with the package.
+
+Tor phone pairing uses **Jars → Pair a phone → Tor**. When StartOS already
+publishes an onion address for Paperclip's Web Interface, the package supplies
+that address to the pairing form even when the browser uses the LAN address.
+If none is published, enable Tor for that interface through StartOS or use a
+reachable HTTPS address. This package does not change the host's Tor settings.
+The phone starts embedded Tor automatically after review. No raw Jam API port
+or main-wallet credential is shared. Installed Tor pairing remains a test gate.

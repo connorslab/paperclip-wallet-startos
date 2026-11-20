@@ -4,17 +4,18 @@ const assert = require('node:assert/strict');
 const fs = require('node:fs');
 const path = require('node:path');
 const vm = require('node:vm');
+const onion = 'http://'+'a'.repeat(56)+'.onion/';
 const ts = require('typescript');
 const { z } = require('zod');
 const root = path.resolve(__dirname, '..');
-async function scenario(saved, bridge = '127.0.0.1:18443') {
+async function scenario(saved, bridge = '127.0.0.1:18443', addresses = ['http://start.local/',onion]) {
   const cache = new Map(); let schema, bridgeRequests = 0;
   const mounts = () => ({items:[], mountVolume(item){this.items.push({volume:item});return this;},mountDependency(item){this.items.push({dependency:item});return this;}});
   const sdk = {
     volumes:{main:'main'}, setupMain:fn=>fn, setupDependencies:fn=>fn,
     Mounts:{of:mounts}, SubContainer:{of:(_effects,image,mounts,name)=>({image,mounts,name})},
     Daemons:{of:()=>({items:{},addDaemon(name,value){this.items[name]=typeof value==='function'?value():value;return this;},addOneshot(name,value){this.items[name]=value();return this;}})},
-    host:{getBridgeAddress:(_effects,request)=>{assert.equal(request.packageId,'knots-blake2b');bridgeRequests++;return {const:async()=>bridge};}},
+    host:{getOwn:(_effects,id,map)=>{assert.equal(id,'wallet-ui');return {const:async()=>map({bindings:{3000:{interfaces:{ui:{addressInfo:{format:()=>addresses}}}}}})};},getBridgeAddress:(_effects,request)=>{assert.equal(request.packageId,'knots-blake2b');bridgeRequests++;return {const:async()=>bridge};}},
     useEntrypoint:()=>['entrypoint'],
   };
   const store = {read:fn=>({const:async()=>saved===null?null:fn(schema.parse(saved))})};
@@ -29,7 +30,7 @@ async function scenario(saved, bridge = '127.0.0.1:18443') {
       if(name==='./utils')return {uiPort:3000};
       return load(path.resolve(path.dirname(file),name)+'.ts');
     };
-    vm.runInNewContext(code,{exports:module.exports,module,require:requireFixture},{filename:file});return module.exports;
+    vm.runInNewContext(code,{exports:module.exports,module,require:requireFixture,URL},{filename:file});return module.exports;
   }
   const main=load(path.join(root,'startos/main.ts')).main;
   const dependencies=load(path.join(root,'startos/dependencies.ts')).setDependencies;
@@ -41,6 +42,7 @@ async function scenario(saved, bridge = '127.0.0.1:18443') {
     const {deps,items}=await scenario(saved);
     assert(deps['knots-blake2b'],'Fresh/old installations declare the node dependency');
     assert(items.jam&&items['jam-rpc'],'Bundled runtime starts without a settings action');
+    assert.equal(items.wallet.exec.env.BARKD_JARS_PAIRING_ONION,onion);
     assert.equal(items.wallet.exec.env.BARKD_JOINBLAKET_URL,'https://localhost:28183');
     assert.equal(items['jam-rpc'].exec.env.PAPERCLIP_NODE_RPC_URL,'http://127.0.0.1:18443');
     assert.equal(items.wallet.exec.env.PAPERCLIP_NODE_RPC_URL,saved?.backend==='knots-blake2b'?'http://127.0.0.1:18443':undefined,'Jars must not change main wallet node selection');
@@ -48,6 +50,10 @@ async function scenario(saved, bridge = '127.0.0.1:18443') {
     assert(!items.jam.subcontainer.mounts.items.some(item=>item.dependency),'Jam never mounts node credentials');
     assert(items['jam-rpc'].subcontainer.mounts.items.some(item=>item.dependency?.readonly));
   }
+  const localOnly=await scenario({},'127.0.0.1:18443',['http://start.local/']);
+  assert.equal(localOnly.items.wallet.exec.env.BARKD_JARS_PAIRING_ONION,'','Never advertise LAN HTTP as a phone Tor address');
+  const unpublished=await scenario({},'127.0.0.1:18443',[]);
+  assert.equal(unpublished.items.wallet.exec.env.BARKD_JARS_PAIRING_ONION,'','Missing Tor publishing must not block the wallet');
   const off=await scenario({backend:'manual',bundledJam:false});
   assert.equal(off.items.jam,null);assert.equal(off.items['jam-rpc'],null);assert.equal(off.bridgeRequests,0);assert.equal(Object.keys(off.deps).length,0);
   const malformed=await scenario({backend:'manual',bundledJam:'false'});assert.equal(malformed.items.jam,null,'Malformed saved choices must not enable Jars');

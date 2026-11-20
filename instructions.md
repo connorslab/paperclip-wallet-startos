@@ -149,3 +149,11 @@ access, key export or payments. Individual devices can be revoked on the host.
 Jam lock/restart invalidates pairing sessions; unlock and create a new pairing.
 No raw Jam API port is exposed. Actual host pairing/Tor/TLS and restore tests
 remain required, as do first-run wallet creation and reviewed Jam payment flows.
+
+Tor phone pairing uses **Jars → Pair a phone → Tor**. When StartOS already
+publishes an onion address for Paperclip's Web Interface, the package supplies
+that address to the pairing form even when the browser uses the LAN address.
+If none is published, enable Tor for that interface through StartOS or use a
+reachable HTTPS address. This package does not change the host's Tor settings.
+The phone starts embedded Tor automatically after review. No raw Jam API port
+or main-wallet credential is shared. Installed Tor pairing remains a test gate.

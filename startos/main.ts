@@ -6,6 +6,14 @@ export const main = sdk.setupMain(async ({ effects }) => {
   const bundledJam =
     (await storeJson.read((s) => s.bundledJam).const(effects)) ?? true
   const backend = await storeJson.read((s) => s.backend).const(effects)
+  // Advertise only an onion address already published by StartOS. This does
+  // not enable Tor, publish a port, or change the user's preferred UI address.
+  const pairingOnion = await sdk.host.getOwn(effects, 'wallet-ui', (host) =>
+    host?.bindings[uiPort]?.interfaces.ui?.addressInfo.format('urlstring').find((address) => {
+      const url = new URL(address)
+      return ['http:', 'https:'].includes(url.protocol) && /^[a-z2-7]{56}\.onion$/.test(url.hostname)
+    }) ?? '',
+  ).const()
   let mounts = sdk.Mounts.of().mountVolume({
     volumeId: 'main',
     subpath: null,
@@ -65,6 +73,7 @@ export const main = sdk.setupMain(async ({ effects }) => {
         env: {
           BARKD_UI_DEFAULT_ARK_SERVER: 'https://ark.paperclippool.xyz',
           PAPERCLIP_XBT_MAINNET: '1',
+          BARKD_JARS_PAIRING_ONION: pairingOnion,
           ...nodeEnv,
           ...(jamEnabled
             ? {
