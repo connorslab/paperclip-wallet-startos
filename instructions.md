@@ -165,3 +165,11 @@ amount, sort by fee or capacity, and filter for verified bonded offers covering
 that amount. Refresh when the snapshot is stale. Browsing does not start a maker,
 change your maker fee or send a payment. Updated paired mobile apps can read the
 same book over Tor.
+
+## Startup fix in test package 0.10.0:10
+
+If the previous test package failed to start with `ERR_INVALID_URL` for an IPv6
+address containing `%`, update the existing Paperclip service with this corrected
+package. It skips that address during optional Tor pairing discovery. Keep IPv6
+and your saved connections unchanged; do not uninstall or reset the wallet.
+A valid published onion address is still used when available.

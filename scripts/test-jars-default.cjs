@@ -54,6 +54,27 @@ async function scenario(saved, bridge = '127.0.0.1:18443', addresses = ['http://
   assert.equal(localOnly.items.wallet.exec.env.BARKD_JARS_PAIRING_ONION,'','Never advertise LAN HTTP as a phone Tor address');
   const unpublished=await scenario({},'127.0.0.1:18443',[]);
   assert.equal(unpublished.items.wallet.exec.env.BARKD_JARS_PAIRING_ONION,'','Missing Tor publishing must not block the wallet');
+  // StartOS also advertises link-local IPv6 URLs with a zone ID. Node's URL
+  // parser rejects these; they must not abort unrelated onion discovery/startup.
+  const rejectedAddresses = [
+    'http://[fe80::1266:6aff:fe00:0%4]:50398',
+    'http://[fe80::1266:6aff:fe00:0%254]:50398',
+    'http://[broken',
+    'not a URL',
+  ];
+  for (const address of rejectedAddresses) {
+    for (const addresses of [[address,onion],[onion,address],[address]]) {
+      const result=await scenario({},'127.0.0.1:18443',addresses);
+      assert(result.items.wallet&&result.items.jam,'Invalid UI addresses must not block wallet or Jars startup');
+      assert.equal(result.items.wallet.exec.env.BARKD_JARS_PAIRING_ONION,addresses.includes(onion)?onion:'');
+    }
+  }
+  const mixed=await scenario({},'127.0.0.1:18443',[
+    ...rejectedAddresses,'http://[::1]:50398/','http://192.168.1.2:50398/',
+    'http://start.local/','ftp://'+'a'.repeat(56)+'.onion/',
+    'http://short.onion/',onion,
+  ]);
+  assert.equal(mixed.items.wallet.exec.env.BARKD_JARS_PAIRING_ONION,onion);
   const off=await scenario({backend:'manual',bundledJam:false});
   assert.equal(off.items.jam,null);assert.equal(off.items['jam-rpc'],null);assert.equal(off.bridgeRequests,0);assert.equal(Object.keys(off.deps).length,0);
   const malformed=await scenario({backend:'manual',bundledJam:'false'});assert.equal(malformed.items.jam,null,'Malformed saved choices must not enable Jars');

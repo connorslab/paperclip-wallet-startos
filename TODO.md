@@ -1,6 +1,6 @@
 # Release acceptance
 
-## 0.10.0:9 test candidate
+## 0.10.0:10 test candidate
 
 - [x] Pin the current UI, BOLT12 Bridge and payment recovery source at b82cbbdf116064d34a0fac0164a8068bc4d4ef81.
 - [x] Include owner-only Jars creation, password-verified backup and interrupted-creation recovery.
@@ -11,7 +11,10 @@
 - [x] Execute fresh/upgrade/disabled/missing-node daemon definitions in isolated contract tests.
 - [x] Validate existing onion-address discovery, absence fallback and unchanged main-wallet backend.
 - [x] Build candidate 0.10.0:8 with the Tor pairing source pin in CI (artifact-only; not distributed).
-- [ ] Build and verify 0.10.0:9 with the Jars order-book source pin.
+- [x] Build and verify 0.10.0:9 with the Jars order-book source pin; x86_64 delivered. User reported startup failure on a scoped IPv6 URL.
+- [x] Reproduce the reported ERR_INVALID_URL before the fix; verify malformed/scoped IPv6 entries do not block wallet/Jars startup or later onion selection.
+- [ ] Build and verify 0.10.0:10 with the wrapper-only startup fix.
+- [ ] Confirm the corrected package starts on the affected host after user sideload.
 - Before a public release, replace the test Docker build source with a verified multi-architecture image digest.
 - Validate the native package, install/update behavior, and complete-wallet preservation.
 - Publish only after the compatible ASP is deployed and its readiness checks pass.

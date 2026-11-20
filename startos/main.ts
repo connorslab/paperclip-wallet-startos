@@ -10,8 +10,14 @@ export const main = sdk.setupMain(async ({ effects }) => {
   // not enable Tor, publish a port, or change the user's preferred UI address.
   const pairingOnion = await sdk.host.getOwn(effects, 'wallet-ui', (host) =>
     host?.bindings[uiPort]?.interfaces.ui?.addressInfo.format('urlstring').find((address) => {
-      const url = new URL(address)
-      return ['http:', 'https:'].includes(url.protocol) && /^[a-z2-7]{56}\.onion$/.test(url.hostname)
+      try {
+        const url = new URL(address)
+        return ['http:', 'https:'].includes(url.protocol) && /^[a-z2-7]{56}\.onion$/.test(url.hostname)
+      } catch {
+        // StartOS may include scoped IPv6 URLs that Node cannot parse. Skip
+        // that candidate so optional Tor discovery cannot prevent startup.
+        return false
+      }
     }) ?? '',
   ).const()
   let mounts = sdk.Mounts.of().mountVolume({

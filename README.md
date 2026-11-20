@@ -1,6 +1,6 @@
 # Paperclip Wallet for StartOS 0.4 · Beta
 
-## Private test candidate 0.10.0:9
+## Private test candidate 0.10.0:10
 
 This branch builds wallet source `b82cbbdf116064d34a0fac0164a8068bc4d4ef81`
 from `./upstream` using the manifest's Docker build source. The branch/manual
@@ -12,6 +12,11 @@ the owner UI, current payment-recovery fixes, and reusable BOLT12 Bridge convers
 The Jars order book shows supported public offers with fee/capacity sorting,
 verified-bond eligibility filtering and pagination. Existing scoped Tor phone
 pairing can read it without new permissions. No maker terms change while browsing.
+Revision :10 fixes a :8/:9 startup regression in optional Tor address discovery.
+StartOS may advertise scoped IPv6 URLs that Node cannot parse; discovery skips
+those entries, continues to a valid published onion URL, or leaves the hint empty.
+This changes only package startup code, not wallet data, network publishing or TLS.
+
 Locally, place that exact source revision at `./upstream` before running `make`.
 The package ID, main volume, existing connections and token remain unchanged.
 An in-place update requires a complete stopped-wallet backup first. Production,
