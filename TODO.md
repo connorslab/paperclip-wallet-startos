@@ -2,7 +2,7 @@
 
 ## 0.10.0:8 test candidate
 
-- [x] Pin the current UI, BOLT12 Bridge and payment recovery source at 8b49d1b9e50fa23d83097edd2a1275956d1c1af4.
+- [x] Pin the current UI, BOLT12 Bridge and payment recovery source at 7f60cc0cbe98bec3fd86b3ab142c1582e6ab440d.
 - [x] Include owner-only Jars creation, password-verified backup and interrupted-creation recovery.
 - [x] Include scoped phone-pairing clients/proxy; installed-host acceptance and paired sends remain open.
 - [x] Enable integrated bundled Jam by default with separate volumes, loopback HTTPS, restricted RPC and complete-volume backup definitions.

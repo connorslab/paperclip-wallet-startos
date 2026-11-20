@@ -18,7 +18,7 @@ export const manifest = setupManifest({
           dockerfile: './upstream/deployment/Dockerfile',
           buildArgs: {
             BARK_VERSION: '0.10.0',
-            GIT_HASH: '8b49d1b9e50fa23d83097edd2a1275956d1c1af4',
+            GIT_HASH: '7f60cc0cbe98bec3fd86b3ab142c1582e6ab440d',
           },
         },
       },
