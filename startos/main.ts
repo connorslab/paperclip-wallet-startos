@@ -12,7 +12,8 @@ export const main = sdk.setupMain(async ({ effects }) => {
     readonly: false,
   })
   const nodeEnv: Record<string, string> = {}
-  if (backend === 'knots-blake2b') {
+  let jamRpcURL = ''
+  if (backend === 'knots-blake2b' || bundledJam) {
     const rpc = await sdk.host
       .getBridgeAddress(effects, {
         packageId: 'knots-blake2b',
@@ -21,7 +22,8 @@ export const main = sdk.setupMain(async ({ effects }) => {
         ssl: false,
       })
       .const()
-    if (rpc) {
+    if (rpc) jamRpcURL = `http://${rpc}`
+    if (rpc && backend === 'knots-blake2b') {
       mounts = mounts.mountDependency({
         dependencyId: 'knots-blake2b',
         volumeId: 'main',
@@ -33,7 +35,7 @@ export const main = sdk.setupMain(async ({ effects }) => {
       nodeEnv.PAPERCLIP_NODE_RPC_COOKIE = '/mnt/xbt-node/.cookie'
     }
   }
-  const jamEnabled = !!bundledJam && !!nodeEnv.PAPERCLIP_NODE_RPC_URL
+  const jamEnabled = !!bundledJam && !!jamRpcURL
   if (jamEnabled)
     mounts = mounts.mountVolume({
       volumeId: 'jam-public',
@@ -142,7 +144,7 @@ export const main = sdk.setupMain(async ({ effects }) => {
                 '/usr/local/lib/jm-xbt/paperclip-startos-rpc-entry.py',
               ],
               user: 'root',
-              env: { PAPERCLIP_NODE_RPC_URL: nodeEnv.PAPERCLIP_NODE_RPC_URL },
+              env: { PAPERCLIP_NODE_RPC_URL: jamRpcURL },
               sigtermTimeout: 30000,
             },
             ready: {

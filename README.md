@@ -1,8 +1,8 @@
 # Paperclip Wallet for StartOS 0.4 · Beta
 
-## Private test candidate 0.10.0:6
+## Private test candidate 0.10.0:7
 
-This branch builds wallet source `d90af29e4b5628ee00b8e6c63a1b1699ebd758c8`
+This branch builds wallet source `3066e2308fe5c0bb1cc234c76ff212d4713d87b9`
 from `./upstream` using the manifest's Docker build source. The branch/manual
 `test-candidate.yml` workflow checks out that exact revision, runs isolated daemon
 tests and signs both architectures with the existing package identity. It uploads
@@ -124,8 +124,10 @@ The companion is built from the same pinned wallet source. Its Dockerfile pins
 Kilombino's multi-architecture Jam/XBT base by digest and applies the reviewed
 Paperclip companion. This is candidate packaging, not a production-ready image.
 
-The **Jars wallet** action is disabled by default and requires the installed
-Knots (BLAKE2b) backend. Enabling/disabling it changes service configuration and
+Jars runs by default and automatically uses the installed Knots (BLAKE2b)
+Companion, independently of the main wallet backend selection. An absent setting
+on upgrade enables Jars; an explicit saved disable choice remains disabled.
+The **Jars wallet** action remains available for advanced disabling. Changing it
 restarts Paperclip; it must not be changed during an active operation. Disabling
 it does not delete the separate Jam wallet or recovery journal.
 

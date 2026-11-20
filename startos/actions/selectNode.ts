@@ -36,14 +36,6 @@ export const selectNode = sdk.Action.withInput(
     backend: (await storeJson.read((s) => s.backend).once()) ?? 'manual',
   }),
   async ({ effects, input }) => {
-    if (
-      input.backend === 'manual' &&
-      (await storeJson.read((s) => s.bundledJam).once())
-    ) {
-      throw new Error(
-        'Disable the bundled Jars wallet before selecting Manual RPC.',
-      )
-    }
     await storeJson.merge(effects, { backend: input.backend })
   },
 )

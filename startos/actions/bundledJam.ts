@@ -9,7 +9,7 @@ const inputSpec = sdk.InputSpec.of({
       'Run a separate JoinBlaket wallet inside Paperclip. Its keys and backups stay separate from your main wallet.',
     ),
     values: { disabled: 'Disabled', enabled: 'Run bundled JoinBlaket' },
-    default: 'disabled',
+    default: 'enabled',
   }),
 })
 
@@ -18,7 +18,7 @@ export const bundledJam = sdk.Action.withInput(
   async () => ({
     name: i18n('Jars wallet'),
     description: i18n(
-      'Enable the bundled JoinBlaket runtime for this test candidate.',
+      'Manage the integrated Jars service. It runs by default and uses the installed Knots (BLAKE2b) node.',
     ),
     warning: i18n(
       'Changing this setting restarts Paperclip. Finish active payments first. Disabling Jars keeps its wallet files and recovery records. This test candidate has not passed host backup/restore or mobile pairing acceptance.',
@@ -35,14 +35,6 @@ export const bundledJam = sdk.Action.withInput(
       : ('disabled' as const),
   }),
   async ({ effects, input }) => {
-    if (
-      input.enabled === 'enabled' &&
-      (await storeJson.read((s) => s.backend).once()) !== 'knots-blake2b'
-    ) {
-      throw new Error(
-        'Select the installed Knots (BLAKE2b) Companion in Node connection first.',
-      )
-    }
     await storeJson.merge(effects, { bundledJam: input.enabled === 'enabled' })
   },
 )

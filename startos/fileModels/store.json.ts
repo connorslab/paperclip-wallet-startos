@@ -5,6 +5,6 @@ export const storeJson = FileHelper.json(
   { base: sdk.volumes.main, subpath: '/store.json' },
   z.object({
     backend: z.enum(['manual', 'knots-blake2b']).catch('manual'),
-    bundledJam: z.boolean().catch(false),
+    bundledJam: z.boolean().default(true).catch(false),
   }),
 )

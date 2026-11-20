@@ -20,7 +20,7 @@ const dict = {
   'The local Jars HTTPS listener is ready': 17,
   'The local Jars HTTPS listener is not ready': 18,
   'Run a separate JoinBlaket wallet inside Paperclip. Its keys and backups stay separate from your main wallet.': 19,
-  'Enable the bundled JoinBlaket runtime for this test candidate.': 20,
+  'Manage the integrated Jars service. It runs by default and uses the installed Knots (BLAKE2b) node.': 20,
   'Changing this setting restarts Paperclip. Finish active payments first. Disabling Jars keeps its wallet files and recovery records. This test candidate has not passed host backup/restore or mobile pairing acceptance.': 21,
 } as const
 export type I18nKey = keyof typeof dict

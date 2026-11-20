@@ -36,6 +36,7 @@ jobs:
           python3 scripts/pinned_source.py --checkout upstream --provenance > source-provenance.json
           npm ci
           npm run check
+          node scripts/test-jars-default.cjs
           (cd upstream && sha256sum -c SHARED-SOURCE.sha256)
           (cd upstream && PYTHONPATH=deployment python3 -m unittest test_package test_container test_platform_node test_managed_chain test_node_tor test_pruned_rpc)
       - name: Build and test isolated wallet

@@ -1,12 +1,15 @@
 # Release acceptance
 
-## 0.10.0:6 test candidate
+## 0.10.0:7 test candidate
 
-- [x] Pin the current UI, BOLT12 Bridge and payment recovery source at d90af29e4b5628ee00b8e6c63a1b1699ebd758c8.
+- [x] Pin the current UI, BOLT12 Bridge and payment recovery source at 3066e2308fe5c0bb1cc234c76ff212d4713d87b9.
 - [x] Include owner-only Jars creation, password-verified backup and interrupted-creation recovery.
 - [x] Include scoped phone-pairing clients/proxy; installed-host acceptance and paired sends remain open.
-- [x] Add optional bundled Jam with separate volumes, loopback HTTPS, restricted RPC and complete-volume backup definitions.
-- [ ] Build the pinned wallet source on both architectures and retain signed test artifacts.
+- [x] Enable integrated bundled Jam by default with separate volumes, loopback HTTPS, restricted RPC and complete-volume backup definitions.
+- [x] Build and verify candidate 0.10.0:6 on both architectures; retained signed private artifacts.
+- [x] Separate the Jars node dependency from the main wallet backend; preserve explicit disable choices.
+- [x] Execute fresh/upgrade/disabled/missing-node daemon definitions in isolated contract tests.
+- [ ] Build and verify 0.10.0:7 with the integrated Jars and Lightning UI source pin.
 - Before a public release, replace the test Docker build source with a verified multi-architecture image digest.
 - Validate the native package, install/update behavior, and complete-wallet preservation.
 - Publish only after the compatible ASP is deployed and its readiness checks pass.
