@@ -8,14 +8,14 @@ const onion = 'http://'+'a'.repeat(56)+'.onion/';
 const ts = require('typescript');
 const { z } = require('zod');
 const root = path.resolve(__dirname, '..');
-async function scenario(saved, bridge = '127.0.0.1:18443', addresses = ['http://start.local/',onion]) {
+async function scenario(saved, bridge = '127.0.0.1:18443', addresses = ['http://start.local/',onion], failCA = false) {
   const cache = new Map(); let schema, bridgeRequests = 0;
   const mounts = () => ({items:[], mountVolume(item){this.items.push({volume:item});return this;},mountDependency(item){this.items.push({dependency:item});return this;}});
   const sdk = {
     volumes:{main:'main'}, setupMain:fn=>fn, setupDependencies:fn=>fn,
     Mounts:{of:mounts}, SubContainer:{of:(_effects,image,mounts,name)=>({image,mounts,name})},
     Daemons:{of:()=>({items:{},addDaemon(name,value){this.items[name]=typeof value==='function'?value():value;return this;},addOneshot(name,value){this.items[name]=value();return this;}})},
-    host:{getOwn:(_effects,id,map)=>{assert.equal(id,'wallet-ui');return {const:async()=>map({bindings:{3000:{interfaces:{ui:{addressInfo:{format:()=>addresses}}}}}})};},getBridgeAddress:(_effects,request)=>{assert.equal(request.packageId,'knots-blake2b');bridgeRequests++;return {const:async()=>bridge};}},
+    host:{getOwn:(_effects,id,map)=>{assert.equal(id,'wallet-ui');return {const:async()=>map({bindings:{3000:{interfaces:{ui:{addressInfo:{nonLocal:{format:()=>addresses}}}}}}})};},getBridgeAddress:(_effects,request)=>{assert.equal(request.packageId,'knots-blake2b');bridgeRequests++;return {const:async()=>bridge};}},
     useEntrypoint:()=>['entrypoint'],
   };
   const store = {read:fn=>({const:async()=>saved===null?null:fn(schema.parse(saved))})};
@@ -34,7 +34,8 @@ async function scenario(saved, bridge = '127.0.0.1:18443', addresses = ['http://
   }
   const main=load(path.join(root,'startos/main.ts')).main;
   const dependencies=load(path.join(root,'startos/dependencies.ts')).setDependencies;
-  const deps=await dependencies({effects:{}}), daemons=await main({effects:{}});
+  const effects={getSslCertificate:async ({hostnames})=>{assert.equal(hostnames.length,0);if(failCA)throw new Error('Unavailable');return ['leaf','intermediate','public-root'];}};
+  const deps=await dependencies({effects}), daemons=await main({effects});
   return {deps,items:daemons.items,bridgeRequests};
 }
 (async()=>{
@@ -50,6 +51,11 @@ async function scenario(saved, bridge = '127.0.0.1:18443', addresses = ['http://
     assert(!items.jam.subcontainer.mounts.items.some(item=>item.dependency),'Jam never mounts node credentials');
     assert(items['jam-rpc'].subcontainer.mounts.items.some(item=>item.dependency?.readonly));
   }
+  const https=await scenario({},'127.0.0.1:18443',['http://[fe80::1%4]:8080','https://start.local:50398/',onion,'https://user@evil.test/','https://evil.test/?secret=value']);
+  assert.equal(https.items.wallet.exec.env.BARKD_JARS_PAIRING_HTTPS_ORIGINS,'["https://start.local:50398/"]');
+  assert.equal(https.items.wallet.exec.env.BARKD_JARS_PAIRING_CA_PEM,'public-root','Use last certificate, never the minted leaf');
+  const failedCA=await scenario({},'127.0.0.1:18443',['https://start.local:50398/'],true);
+  assert.equal(failedCA.items.wallet.exec.env.BARKD_JARS_PAIRING_CA_PEM,'','Unavailable trust must not prevent startup or become an unchecked pin');
   const localOnly=await scenario({},'127.0.0.1:18443',['http://start.local/']);
   assert.equal(localOnly.items.wallet.exec.env.BARKD_JARS_PAIRING_ONION,'','Never advertise LAN HTTP as a phone Tor address');
   const unpublished=await scenario({},'127.0.0.1:18443',[]);

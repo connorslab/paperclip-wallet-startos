@@ -181,3 +181,13 @@ If none is published, enable Tor for that interface through StartOS or use a
 reachable HTTPS address. This package does not change the host's Tor settings.
 The phone starts embedded Tor automatically after review. No raw Jam API port
 or main-wallet credential is shared. Installed Tor pairing remains a test gate.
+
+
+HTTPS phone pairing now includes the host certificate automatically in new QR
+codes. In **Jars → Pair a phone**, choose HTTPS to connect over your home network,
+or use the published Tor address to connect away from home. The package uses the
+StartOS public root CA to verify the actual HTTPS certificate before creating the
+code. It never disables TLS checks. Older codes missing a fingerprint must be
+replaced; no phone-wide certificate installation is required. Manual certificate
+settings are available for custom hosts. Optional certificate discovery failures
+leave the wallet running and offer Tor or a separately verified fingerprint.

@@ -6,20 +6,29 @@ export const main = sdk.setupMain(async ({ effects }) => {
   const bundledJam =
     (await storeJson.read((s) => s.bundledJam).const(effects)) ?? true
   const backend = await storeJson.read((s) => s.backend).const(effects)
-  // Advertise only an onion address already published by StartOS. This does
-  // not enable Tor, publish a port, or change the user's preferred UI address.
-  const pairingOnion = await sdk.host.getOwn(effects, 'wallet-ui', (host) =>
-    host?.bindings[uiPort]?.interfaces.ui?.addressInfo.format('urlstring').find((address) => {
+  // Only OS-published addresses may be used for phone trust discovery. Ignore
+  // scoped IPv6/malformed entries independently so they cannot prevent startup.
+  const pairingAddresses = await sdk.host.getOwn(effects, 'wallet-ui', (host) =>
+    (host?.bindings[uiPort]?.interfaces.ui?.addressInfo.nonLocal.format('urlstring') ?? []).flatMap((address) => {
       try {
         const url = new URL(address)
-        return ['http:', 'https:'].includes(url.protocol) && /^[a-z2-7]{56}\.onion$/.test(url.hostname)
-      } catch {
-        // StartOS may include scoped IPv6 URLs that Node cannot parse. Skip
-        // that candidate so optional Tor discovery cannot prevent startup.
-        return false
-      }
-    }) ?? '',
+        if (url.username || url.password || url.search || url.hash || url.pathname !== '/') return []
+        return ['http:', 'https:'].includes(url.protocol) ? [url] : []
+      } catch { return [] }
+    }),
   ).const()
+  const pairingOnion = pairingAddresses.find(url => /^[a-z2-7]{56}\.onion$/.test(url.hostname))?.href ?? ''
+  const pairingHTTPS = pairingAddresses.filter(url => url.protocol === 'https:' && !url.hostname.endsWith('.onion')).map(url => url.href).slice(0, 32)
+  let pairingRootCA = ''
+  if (pairingHTTPS.length) {
+    try {
+      // Backport SDK getRootCa: the OS returns the root last in the full chain.
+      // No private key is requested. The daemon verifies the actual proxy leaf
+      // and hostname against this root before it supplies a QR fingerprint.
+      const chain = await effects.getSslCertificate({ hostnames: [] })
+      pairingRootCA = chain[chain.length - 1] ?? ''
+    } catch { /* Optional HTTPS discovery must not prevent wallet startup. */ }
+  }
   let mounts = sdk.Mounts.of().mountVolume({
     volumeId: 'main',
     subpath: null,
@@ -80,6 +89,8 @@ export const main = sdk.setupMain(async ({ effects }) => {
           BARKD_UI_DEFAULT_ARK_SERVER: 'https://ark.paperclippool.xyz',
           PAPERCLIP_XBT_MAINNET: '1',
           BARKD_JARS_PAIRING_ONION: pairingOnion,
+          BARKD_JARS_PAIRING_HTTPS_ORIGINS: JSON.stringify(pairingHTTPS),
+          BARKD_JARS_PAIRING_CA_PEM: pairingRootCA,
           ...nodeEnv,
           ...(jamEnabled
             ? {

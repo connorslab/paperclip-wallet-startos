@@ -173,3 +173,13 @@ address containing `%`, update the existing Paperclip service with this correcte
 package. It skips that address during optional Tor pairing discovery. Keep IPv6
 and your saved connections unchanged; do not uninstall or reset the wallet.
 A valid published onion address is still used when available.
+
+
+HTTPS phone pairing now includes the host certificate automatically in new QR
+codes. In **Jars → Pair a phone**, choose HTTPS to connect over your home network,
+or use the published Tor address to connect away from home. The package uses the
+StartOS public root CA to verify the actual HTTPS certificate before creating the
+code. It never disables TLS checks. Older codes missing a fingerprint must be
+replaced; no phone-wide certificate installation is required. Manual certificate
+settings are available for custom hosts. Optional certificate discovery failures
+leave the wallet running and offer Tor or a separately verified fingerprint.

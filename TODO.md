@@ -51,3 +51,16 @@ checks the built daemon version and retains source provenance with the package.
 Candidate 0.10.0:6 supersedes the older 0.10.0:5 test artifacts. It preserves the
 package identity, all volumes and optional Jam setting. This is an authorized
 private test update; public production acceptance remains incomplete.
+
+
+HTTPS pairing change (2026-11-20): wrapper supplies only OS-published origins and
+the public root CA (SDK getRootCa-compatible extraction, no private key). Scoped
+IPv6 entries are ignored independently and certificate API errors do not block
+startup. Wrapper fixtures cover both cases and root selection. Accept actual
+new-code pairing from LAN HTTPS and Tor on an installed candidate before marking
+this gate complete; existing codes cannot gain trust retroactively.
+
+
+Candidate 0.10.0:11 freezes wallet source97e8024820192bae7fd8432d0be20ace4161548a
+for automatic verified HTTPS pairing. Artifact-only CI and signature verification
+must complete before delivery; affected-host pairing is still a separate gate.
