@@ -13,7 +13,8 @@
 - [x] Build candidate 0.10.0:8 with the Tor pairing source pin in CI (artifact-only; not distributed).
 - [x] Build and verify 0.10.0:9 with the Jars order-book source pin; x86_64 delivered. User reported startup failure on a scoped IPv6 URL.
 - [x] Reproduce the reported ERR_INVALID_URL before the fix; verify malformed/scoped IPv6 entries do not block wallet/Jars startup or later onion selection.
-- [ ] Build and verify 0.10.0:10 with the wrapper-only startup fix.
+- [x] Build and verify 0.10.0:10 x86_64 with the wrapper-only startup fix (CI 44762325376, wrapper f78fccb1755cc26baea712e8aa3da0c2644a903c). Native signature, checksum, source pin and complete archive integrity verified.
+- [ ] Download and verify the 0.10.0:10 ARM64 artifact separately.
 - [ ] Confirm the corrected package starts on the affected host after user sideload.
 - Before a public release, replace the test Docker build source with a verified multi-architecture image digest.
 - Validate the native package, install/update behavior, and complete-wallet preservation.
